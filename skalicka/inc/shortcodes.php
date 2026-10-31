@@ -1,11 +1,29 @@
 <?php
 /**
  * Krátké kódy pro obsah stránek:
- * [skalicka_dnes] [skalicka_pohybovky pocet="3"] [skalicka_hodiny] [skalicka_tlacitko typ="…" text="…" styl="zluta|svetla"]
+ * [skalicka_dnes] [skalicka_tyden] [skalicka_pohybovky pocet="3"] [skalicka_hodiny] [skalicka_tlacitko typ="…" text="…" styl="zluta|svetla"]
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
+
+/* Dnešní akce do semaforu (zavírání ukazuje semafor sám). */
+function skalicka_sem_dnes() {
+	$tz    = wp_timezone();
+	$now   = new DateTimeImmutable( 'now', $tz );
+	$start = $now->setTime( 0, 0 );
+	$out   = array();
+	foreach ( skalicka_events_between( $start, $start->modify( '+1 day' ) ) as $e ) {
+		if ( $e['end'] <= $now || in_array( SKALICKA_CAT_CLOSED, $e['cats'], true ) ) {
+			continue;
+		}
+		$poh   = in_array( SKALICKA_CAT_POHYBOVKY, $e['cats'], true );
+		$url   = $poh ? skalicka_link( 'pohybovky' ) : get_permalink( $e['id'] );
+		$time  = $e['allday'] ? '' : skalicka_time( $e['start'] ) . ' ';
+		$out[] = '<a class="sk-sem-akce' . ( $poh ? ' is-pohybovky' : '' ) . '" href="' . esc_url( $url ) . '"><span>Dnes</span>' . esc_html( $time . $e['title'] ) . '</a>';
+	}
+	return $out ? '<div class="sk-sem-dnes">' . implode( '', $out ) . '</div>' : '';
 }
 
 /* Velký semafor se třemi světly. Text doplní skript podle aktuálního času. */
@@ -13,47 +31,109 @@ add_shortcode( 'skalicka_semafor', function () {
 	return '<div class="sk-sem" data-stav="">'
 		. '<div class="sk-sem-box" aria-hidden="true"><span class="sk-sem-l sk-sem-r"></span><span class="sk-sem-l sk-sem-o"></span><span class="sk-sem-l sk-sem-g"></span></div>'
 		. '<div class="sk-sem-txt"><div role="status" aria-live="polite"><strong class="sk-sem-title">' . esc_html( skalicka_hours_short() ) . '</strong><span class="sk-sem-sub"></span></div>'
-		. '<span class="sk-sem-clockrow" hidden><span class="sk-sem-clock" aria-hidden="true">--:--:--</span><span class="sk-sem-clocklbl"></span></span></div>'
+		. '<span class="sk-sem-clockrow" hidden><span class="sk-sem-clock" aria-hidden="true">--:--:--</span><span class="sk-sem-clocklbl"></span></span>'
+		. skalicka_sem_dnes() . '</div>'
 		. '</div>';
 } );
 
-/* Pruh „Dnes u nás“. */
-add_shortcode( 'skalicka_dnes', function () {
+/**
+ * Položky pro jeden den (dnes / zítra): zavírání, Pohybovky, ostatní akce.
+ * U dneška se vynechá, co už skončilo. Bez akcí vrátí otevírací dobu.
+ *
+ * @return string[] HTML štítky
+ */
+function skalicka_day_pills( DateTimeImmutable $day, $is_today ) {
 	$tz     = wp_timezone();
 	$now    = new DateTimeImmutable( 'now', $tz );
-	$start  = $now->setTime( 0, 0 );
+	$start  = $day->setTime( 0, 0 );
 	$end    = $start->modify( '+1 day' );
 	$items  = array();
-	$manual = skalicka_manual_closure();
 	$hours  = skalicka_hours();
-	$today  = $hours[ (int) $now->format( 'N' ) ];
+	$range  = $hours[ (int) $start->format( 'N' ) ];
+	$manual = $is_today ? skalicka_manual_closure() : null;
+	$closed = false;
 
 	if ( $manual ) {
-		$items[] = '<span class="sk-pill sk-pill--zavreno">Dnes zavřeno' . ( $manual['msg'] ? ': ' . esc_html( $manual['msg'] ) : '' ) . '</span>';
+		$closed  = true;
+		$items[] = '<span class="sk-pill sk-pill--zavreno">Zavřeno' . ( $manual['msg'] ? ': ' . esc_html( $manual['msg'] ) : '' ) . '</span>';
 	}
-
 	foreach ( skalicka_events_between( $start, $end ) as $e ) {
-		if ( $e['end'] <= $now ) {
+		if ( $is_today && $e['end'] <= $now ) {
 			continue;
 		}
+		$time = $e['allday'] ? '' : skalicka_time( $e['start'] ) . ' ';
 		if ( in_array( SKALICKA_CAT_CLOSED, $e['cats'], true ) ) {
-			$label   = $e['allday'] ? 'Dnes zavřeno' : skalicka_time( $e['start'] ) . '–' . skalicka_time( $e['end'] ) . ' zavřeno';
+			$closed  = $closed || $e['allday'];
+			$label   = $e['allday'] ? 'Zavřeno' : skalicka_time( $e['start'] ) . '–' . skalicka_time( $e['end'] ) . ' zavřeno';
 			$items[] = '<span class="sk-pill sk-pill--zavreno">' . esc_html( $label . ': ' . $e['title'] ) . '</span>';
 		} elseif ( in_array( SKALICKA_CAT_POHYBOVKY, $e['cats'], true ) ) {
-			$items[] = '<span class="sk-pill">' . esc_html( skalicka_time( $e['start'] ) . ' ' . $e['title'] ) . ' · <a href="' . esc_url( skalicka_link( 'pohybovky' ) ) . '">Rezervovat</a></span>';
+			$items[] = '<span class="sk-pill sk-pill--pohybovky">' . esc_html( $time . $e['title'] ) . ' · <a href="' . esc_url( skalicka_link( 'pohybovky' ) ) . '">Rezervovat</a></span>';
 		} else {
-			$time    = $e['allday'] ? '' : skalicka_time( $e['start'] ) . ' ';
-			$items[] = '<span class="sk-pill"><a href="' . esc_url( get_permalink( $e['id'] ) ) . '">' . esc_html( $time . $e['title'] ) . '</a></span>';
+			$items[] = '<span class="sk-pill sk-pill--akce"><a href="' . esc_url( get_permalink( $e['id'] ) ) . '">' . esc_html( $time . $e['title'] ) . '</a></span>';
 		}
 	}
-
-	if ( ! $items ) {
-		$items[] = $today
-			? '<span class="sk-pill">Dnes otevřeno ' . esc_html( skalicka_format_range( $today ) ) . ', přijďte bez rezervace.</span>'
-			: '<span class="sk-pill sk-pill--zavreno">Dnes zavřeno</span>';
+	if ( ! $closed ) {
+		array_unshift( $items, $range
+			? '<span class="sk-pill sk-pill--hodiny">Otevřeno ' . esc_html( skalicka_format_range( $range ) ) . '</span>'
+			: '<span class="sk-pill sk-pill--zavreno">Zavřeno</span>' );
 	}
+	return $items;
+}
 
-	return '<div class="sk-dnes"><div class="sk-dnes-in"><span class="sk-dnes-title">Dnes u nás</span>' . implode( '', $items ) . '</div></div>';
+/* Pruh „Dnes a zítra“ pod úvodní částí. */
+add_shortcode( 'skalicka_dnes', function () {
+	$tz       = wp_timezone();
+	$today    = new DateTimeImmutable( 'today', $tz );
+	$tomorrow = $today->modify( '+1 day' );
+	$html     = '<div class="sk-dnes"><div class="sk-dnes-in sk-dnes-2">';
+	foreach ( array( array( $today, 'Dnes', true ), array( $tomorrow, 'Zítra', false ) ) as $d ) {
+		$html .= '<div class="sk-dnes-den"><span class="sk-dnes-title">' . esc_html( $d[1] ) . ' <small>' . esc_html( mb_strtolower( skalicka_weekday_short( $d[0] ) ) . ' ' . $d[0]->format( 'j. n.' ) ) . '</small></span>'
+			. '<div class="sk-dnes-pills">' . implode( '', skalicka_day_pills( $d[0], $d[2] ) ) . '</div></div>';
+	}
+	return $html . '</div></div>';
+} );
+
+/**
+ * [skalicka_tyden] – akce na tento a příští týden (po–ne), ve dvou sloupcích.
+ */
+add_shortcode( 'skalicka_tyden', function () {
+	$tz      = wp_timezone();
+	$now     = new DateTimeImmutable( 'now', $tz );
+	$monday  = $now->setTime( 0, 0 )->modify( '-' . ( (int) $now->format( 'N' ) - 1 ) . ' days' );
+	$weeks   = array(
+		array( 'Tento týden', $now, $monday->modify( '+7 days' ), 'sk-tyden--ted' ),
+		array( 'Příští týden', $monday->modify( '+7 days' ), $monday->modify( '+14 days' ), 'sk-tyden--pristi' ),
+	);
+	$html = '<div class="sk-tydny">';
+	foreach ( $weeks as $w ) {
+		$list = array_values( array_filter( skalicka_events_between( $w[1], $w[2] ), function ( $e ) use ( $now ) {
+			return $e['end'] > $now;
+		} ) );
+		$range = $w[0] === 'Tento týden'
+			? $monday->format( 'j. n.' ) . ' – ' . $monday->modify( '+6 days' )->format( 'j. n.' )
+			: $w[1]->format( 'j. n.' ) . ' – ' . $w[1]->modify( '+6 days' )->format( 'j. n.' );
+		$html .= '<section class="sk-tyden ' . esc_attr( $w[3] ) . '"><h3>' . esc_html( $w[0] ) . ' <small>' . esc_html( $range ) . '</small></h3>';
+		if ( ! $list ) {
+			$html .= '<p class="sk-tyden-prazdno">Žádná zvláštní akce, herna běží normálně. Přijďte bez rezervace.</p>';
+		} else {
+			$html .= '<ul class="sk-tyden-list">';
+			foreach ( $list as $e ) {
+				$is_closed = in_array( SKALICKA_CAT_CLOSED, $e['cats'], true );
+				$is_poh    = in_array( SKALICKA_CAT_POHYBOVKY, $e['cats'], true );
+				$cls       = $is_closed ? 'is-zavreno' : ( $is_poh ? 'is-pohybovky' : 'is-akce' );
+				$is_today  = $e['start']->format( 'Y-m-d' ) === $now->format( 'Y-m-d' );
+				$time      = $e['allday'] ? 'celý den' : skalicka_time( $e['start'] ) . '–' . skalicka_time( $e['end'] );
+				$html     .= '<li class="' . $cls . ( $is_today ? ' is-dnes' : '' ) . '">'
+					. '<span class="sk-tyden-den"><b>' . esc_html( skalicka_weekday_short( $e['start'] ) ) . '</b>' . esc_html( $e['start']->format( 'j. n.' ) ) . '</span>'
+					. '<span class="sk-tyden-co"><strong>' . esc_html( ( $is_closed ? 'Zavřeno: ' : '' ) . $e['title'] ) . '</strong><span>' . esc_html( $time ) . ( $is_today ? ' · dnes' : '' ) . '</span></span>'
+					. ( $is_poh ? '<a class="sk-tyden-btn" href="' . esc_url( skalicka_link( 'pohybovky' ) ) . '">Rezervovat</a>' : ( $is_closed ? '' : '<a class="sk-tyden-btn" href="' . esc_url( get_permalink( $e['id'] ) ) . '">Detail</a>' ) )
+					. '</li>';
+			}
+			$html .= '</ul>';
+		}
+		$html .= '</section>';
+	}
+	return $html . '</div>';
 } );
 
 /* Nejbližší Pohybovky. */
@@ -105,5 +185,5 @@ add_shortcode( 'skalicka_tlacitko', function ( $atts ) {
 
 /* Shortcode bloky nejsou v odstavci – necháme je vypsat jako bloky. */
 add_filter( 'no_texturize_shortcodes', function ( $list ) {
-	return array_merge( $list, array( 'skalicka_semafor', 'skalicka_dnes', 'skalicka_pohybovky', 'skalicka_hodiny', 'skalicka_tlacitko' ) );
+	return array_merge( $list, array( 'skalicka_semafor', 'skalicka_dnes', 'skalicka_tyden', 'skalicka_pohybovky', 'skalicka_hodiny', 'skalicka_tlacitko' ) );
 } );
