@@ -24,6 +24,13 @@
 				}
 				?>
 			</a>
+			<?php
+			$sk_icon = (int) get_option( 'site_icon' );
+			$sk_icon = $sk_icon ? wp_get_attachment_image_url( $sk_icon, 'thumbnail' ) : '';
+			if ( $sk_icon ) :
+				?>
+				<img class="sk-head-logo" src="<?php echo esc_url( $sk_icon ); ?>" width="64" height="64" alt="" decoding="async">
+			<?php endif; ?>
 			<?php echo $sk_semafor; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		<?php else : ?>
 			<?php echo $sk_semafor; // phpcs:ignore WordPress.Security.EscapeOutput ?>
