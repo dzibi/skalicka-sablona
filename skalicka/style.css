@@ -3,7 +3,7 @@ Theme Name: Skalička
 Theme URI: https://svetskalicka.cz
 Author: Kapilsons s.r.o.
 Description: Šablona pro Dětský svět Skalička – herna s kavárnou v OC Skalka, Příbram. Semafor otevírací doby, napojení na kalendář akcí, členství a rezervace.
-Version: 1.10.14
+Version: 1.10.15
 Requires at least: 6.5
 Requires PHP: 8.1
 License: GNU General Public License v2 or later
@@ -710,3 +710,4 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-hero-show--2 .sk-slide-2{animation:sk-slide2 12s ease-in-out infinite}
 @keyframes sk-slide2{0%,42%{opacity:0}50%,92%{opacity:1}100%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.sk-hero-show .sk-slide:not(.sk-slide-1){animation:none;opacity:0}}
+.sk-zdarma{font-weight:800}

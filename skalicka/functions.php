@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SKALICKA_VERSION', '1.10.14' );
+define( 'SKALICKA_VERSION', '1.10.15' );
 
 require_once __DIR__ . '/inc/settings.php';
 require_once __DIR__ . '/inc/events.php';
@@ -194,22 +194,39 @@ function skalicka_nbsp( $html ) {
 		return $html;
 	}
 	$parts = preg_split( '/(<[^>]+>)/u', $html, -1, PREG_SPLIT_DELIM_CAPTURE );
-	$skip  = 0;
+	$skip  = 0; // script, style, svg…: nic neměnit
+	$bold  = 0; // uvnitř tučného textu, nadpisu nebo tlačítka: „zdarma“ už nezvýrazňovat
+	$btn   = false;
 	foreach ( $parts as $i => $p ) {
 		if ( '' === $p ) {
 			continue;
 		}
 		if ( '<' === $p[0] ) {
-			if ( preg_match( '#^<(script|style|svg|textarea|pre)\b#i', $p ) ) {
+			if ( preg_match( '#^<(script|style|svg|textarea|pre|title)\b#i', $p ) ) {
 				$skip++;
-			} elseif ( preg_match( '#^</(script|style|svg|textarea|pre)>#i', $p ) ) {
+			} elseif ( preg_match( '#^</(script|style|svg|textarea|pre|title)>#i', $p ) ) {
 				$skip = max( 0, $skip - 1 );
+			} elseif ( preg_match( '#^<(strong|b|h[1-6]|button|summary)\b#i', $p ) ) {
+				$bold++;
+			} elseif ( preg_match( '#^</(strong|b|h[1-6]|button|summary)>#i', $p ) ) {
+				$bold = max( 0, $bold - 1 );
+			} elseif ( preg_match( '#^<a\b[^>]*wp-block-button__link#i', $p ) ) {
+				$bold++;
+				$btn = true;
+			} elseif ( $btn && preg_match( '#^</a>#i', $p ) ) {
+				$bold = max( 0, $bold - 1 );
+				$btn  = false;
 			}
 			continue;
 		}
-		if ( ! $skip ) {
-			$parts[ $i ] = preg_replace( '/(?<![\p{L}\p{N}&;])([vkszouaiVKSZOUAI]) +(?=\S)/u', '$1&nbsp;', $p );
+		if ( $skip ) {
+			continue;
 		}
+		$p = preg_replace( '/(?<![\p{L}\p{N}&;])([vkszouaiVKSZOUAI]) +(?=\S)/u', '$1&nbsp;', $p );
+		if ( ! $bold ) {
+			$p = preg_replace( '/(?<![\p{L}])(zdarma|Zdarma)(?![\p{L}])/u', '<strong class="sk-zdarma">$1</strong>', $p );
+		}
+		$parts[ $i ] = $p;
 	}
 	return implode( '', $parts );
 }
