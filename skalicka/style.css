@@ -3,7 +3,7 @@ Theme Name: Skalička
 Theme URI: https://svetskalicka.cz
 Author: Kapilsons s.r.o.
 Description: Šablona pro Dětský svět Skalička – herna s kavárnou v OC Skalka, Příbram. Semafor otevírací doby, napojení na kalendář akcí, členství a rezervace.
-Version: 1.9.7
+Version: 1.9.8
 Requires at least: 6.5
 Requires PHP: 8.1
 License: GNU General Public License v2 or later
@@ -507,7 +507,8 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-cal .tribe-events-c-top-bar__nav-link:hover{background:#FECC06}
 .sk-cal .tribe-events-c-view-selector__button{border-radius:999px}
 /* měsíc: hlavička dnů */
-.sk-cal .tribe-events-calendar-month__header-column-title{background:#A3CBD6;color:#fff;font-weight:800;border-radius:10px;margin:0 2px 6px;padding:6px 0}
+.sk-cal .tribe-events-calendar-month__header-column{padding:0 2px 6px}
+.sk-cal .tribe-events-calendar-month__header-column-title{display:block;width:auto;background:#A3CBD6;color:#fff;font-weight:800;border-radius:10px;padding:6px 0;text-align:center}
 .sk-cal .tribe-events-calendar-month__header-column-title *{color:#fff!important}
 /* měsíc: dny */
 .sk-cal .tribe-events-calendar-month__day{background:#FFF8F2;position:relative;transition:background .2s}
@@ -519,7 +520,7 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno){background:repeating-linear-gradient(-45deg,#FBE1DC 0 10px,#F7D2CB 10px 20px)}
 .sk-cal .tribe-events-calendar-month__day--past:has(.tribe-events-calendar-month__calendar-event){filter:saturate(.55);opacity:.8}
 .sk-cal .tribe-events-calendar-month__day-date-daynum{font-weight:800;font-size:1.05rem}
-.sk-cal .tribe-events-calendar-month__day--current{box-shadow:inset 0 0 0 4px #FECC06;z-index:1}
+.sk-cal .tribe-common--breakpoint-medium .tribe-events-calendar-month__day--current{box-shadow:inset 0 0 0 4px #FECC06;z-index:1}
 .sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-date-daynum,.sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-date-link{background:#FECC06;color:#3C3231;border-radius:999px;display:inline-flex;min-width:30px;height:30px;align-items:center;justify-content:center;padding:0 6px}
 .sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-cell--desktop::after{content:"Dnes";position:absolute;top:10px;right:10px;font-size:12px;font-weight:800;background:#3C3231;color:#fff;border-radius:999px;padding:1px 8px}
 /* měsíc: akce v buňce */
@@ -535,8 +536,9 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno) .tribe-events-calendar-month__day-cell--mobile{background:#E84F37}
 .sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno) .tribe-events-calendar-month__day-cell--mobile *{color:#fff}
 .sk-cal .tribe-events-calendar-month__day-cell--mobile .tribe-events-calendar-month__mobile-events-icon{background:#3C3231}
-.sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-cell--mobile{box-shadow:inset 0 0 0 3px #3C3231}
-.sk-cal .tribe-events-calendar-month__day-cell--selected{outline:3px solid #3C3231;outline-offset:-3px}
+.sk-cal .tribe-events-calendar-month__day:not(.tribe-events-calendar-month__day--past) .tribe-events-calendar-month__day-cell--mobile{background:#FFF8F2}
+.sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-cell--mobile{background:#fff;box-shadow:inset 0 0 0 3px #FECC06}
+.sk-cal .tribe-events-calendar-month__day-cell--selected{outline:3px solid #3C3231;outline-offset:-1px}
 .sk-cal .tribe-events-calendar-month-mobile-events__mobile-event{background:#FFF8F2;border-radius:16px;padding:12px 14px;margin-bottom:10px;border-left:6px solid #FECC06}
 .sk-cal .tribe-events-calendar-month-mobile-events__mobile-event.tribe_events_cat-pohybovky{border-left-color:#FD8F6B;background:#EAF6F5}
 .sk-cal .tribe-events-calendar-month-mobile-events__mobile-event.tribe_events_cat-zavreno{border-left-color:#E84F37;background:#FBE1DC}
@@ -557,6 +559,10 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 /* odkazy a patička kalendáře */
 .sk-cal .tribe-events-c-subscribe-dropdown__button{border-radius:999px;border:2px solid #3C3231;background:#fff}
 .sk-cal .tribe-events-c-nav__prev,.sk-cal .tribe-events-c-nav__next{font-weight:800}
+.sk-cal .tribe-events-calendar-month__day:has(.tribe-events-calendar-month__calendar-event) .tribe-events-calendar-month__day-cell--mobile{background:#FECC06}
+.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-pohybovky) .tribe-events-calendar-month__day-cell--mobile{background:#FD8F6B}
+.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno) .tribe-events-calendar-month__day-cell--mobile{background:#E84F37}
+.sk-cal .tribe-events-calendar-month__day--past:has(.tribe-events-calendar-month__calendar-event) .tribe-events-calendar-month__day-cell--mobile{opacity:.5}
 /* vysvětlivky */
 .sk-cal-legend{list-style:none;display:flex;flex-wrap:wrap;gap:8px 14px;margin:0 0 16px;padding:0;font-weight:800;font-size:15px}
 .sk-cal-legend li{display:inline-flex;align-items:center;gap:7px;background:#fff;border-radius:999px;padding:5px 12px 5px 8px}
