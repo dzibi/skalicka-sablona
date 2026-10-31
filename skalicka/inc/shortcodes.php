@@ -37,7 +37,7 @@ function skalicka_sem_dnes() {
 		$out[] = '<a class="sk-sem-akce' . ( $poh ? ' is-pohybovky is-rez' : '' ) . $live[1] . '" href="' . esc_url( $url ) . '"' . $live[0] . '>'
 			. '<span class="sk-sem-tag"><span class="sk-jen-pred">Dnes</span><span class="sk-jen-ted">Teď</span></span>'
 			. '<span class="sk-sem-akce-txt"><span class="sk-jen-pred">' . esc_html( $time ) . '</span>' . esc_html( $e['title'] )
-			. ( $e['allday'] ? '' : '<span class="sk-jen-ted"> · probíhá do ' . esc_html( skalicka_time( $e['end'] ) ) . '</span>' )
+			. ( $e['allday'] ? '' : '<span class="sk-jen-ted"> · probíhá do&nbsp;' . esc_html( skalicka_time( $e['end'] ) ) . '</span>' )
 			. '</span></a>';
 	}
 	return $out ? '<div class="sk-sem-dnes">' . implode( '', $out ) . '</div>' : '';
@@ -87,12 +87,12 @@ function skalicka_day_pills( DateTimeImmutable $day, $is_today ) {
 			$live    = skalicka_live( $e, $now );
 			$items[] = '<span class="sk-pill sk-pill--pohybovky' . $live[1] . '"' . $live[0] . '>'
 				. '<span class="sk-jen-pred">' . esc_html( $time . $e['title'] ) . ' · <a href="' . esc_url( skalicka_link( 'pohybovky' ) ) . '">Rezervovat</a></span>'
-				. '<span class="sk-jen-ted"><b>Teď probíhá:</b> ' . esc_html( $e['title'] ) . ', do ' . esc_html( skalicka_time( $e['end'] ) ) . '</span></span>';
+				. '<span class="sk-jen-ted"><b>Teď probíhá:</b> ' . esc_html( $e['title'] ) . ', do&nbsp;' . esc_html( skalicka_time( $e['end'] ) ) . '</span></span>';
 		} else {
 			$live    = skalicka_live( $e, $now );
 			$items[] = '<span class="sk-pill sk-pill--akce' . $live[1] . '"' . $live[0] . '><a href="' . esc_url( get_permalink( $e['id'] ) ) . '">'
 				. '<span class="sk-jen-pred">' . esc_html( $time . $e['title'] ) . '</span>'
-				. '<span class="sk-jen-ted"><b>Teď probíhá:</b> ' . esc_html( $e['title'] ) . ', do ' . esc_html( skalicka_time( $e['end'] ) ) . '</span></a></span>';
+				. '<span class="sk-jen-ted"><b>Teď probíhá:</b> ' . esc_html( $e['title'] ) . ', do&nbsp;' . esc_html( skalicka_time( $e['end'] ) ) . '</span></a></span>';
 		}
 	}
 	if ( ! $closed ) {
@@ -151,7 +151,7 @@ add_shortcode( 'skalicka_tyden', function () {
 					. '<span class="sk-tyden-den"><b>' . esc_html( skalicka_weekday_short( $e['start'] ) ) . '</b>' . esc_html( $e['start']->format( 'j. n.' ) ) . '</span>'
 					. '<span class="sk-tyden-co"><strong>' . esc_html( ( $is_closed ? 'Zavřeno: ' : '' ) . $e['title'] ) . '</strong>'
 					. '<span class="sk-jen-pred">' . esc_html( $time ) . ( $is_today ? ' · dnes' : '' ) . '</span>'
-					. ( $e['allday'] ? '' : '<span class="sk-jen-ted"><b>Teď probíhá</b>, do ' . esc_html( skalicka_time( $e['end'] ) ) . '</span>' ) . '</span>'
+					. ( $e['allday'] ? '' : '<span class="sk-jen-ted"><b>Teď probíhá</b>, do&nbsp;' . esc_html( skalicka_time( $e['end'] ) ) . '</span>' ) . '</span>'
 					. ( $is_poh ? '<a class="sk-tyden-btn sk-jen-pred" href="' . esc_url( skalicka_link( 'pohybovky' ) ) . '">Rezervovat</a><span class="sk-tyden-btn sk-tyden-btn--off sk-jen-ted" aria-hidden="true">Probíhá</span>' : ( $is_closed ? '' : '<a class="sk-tyden-btn" href="' . esc_url( get_permalink( $e['id'] ) ) . '">Detail</a>' ) )
 					. '</li>';
 			}
@@ -176,7 +176,7 @@ add_shortcode( 'skalicka_pohybovky', function ( $atts ) {
 		$html .= '<div class="sk-date"><span>' . esc_html( skalicka_weekday_short( $e['start'] ) ) . '</span><b>' . esc_html( $e['start']->format( 'j' ) ) . '</b><span>' . esc_html( skalicka_month_gen( $e['start']->format( 'n' ) ) ) . '</span></div>';
 		$html .= '<div><h3>' . esc_html( $e['title'] ) . '</h3>';
 		$html .= '<p>' . esc_html( skalicka_time( $e['start'] ) ) . ' · 3–6 let · platíte na místě, členové zdarma</p>';
-		$html .= '<div class="sk-event-links"><a class="sk-jen-pred" href="' . esc_url( skalicka_link( 'pohybovky' ) ) . '">Rezervovat</a><span class="sk-jen-ted sk-event-ted">Teď probíhá, do ' . esc_html( skalicka_time( $e['end'] ) ) . '</span><a href="' . esc_url( get_permalink( $e['id'] ) ) . '">Detail a do kalendáře</a></div>';
+		$html .= '<div class="sk-event-links"><a class="sk-jen-pred" href="' . esc_url( skalicka_link( 'pohybovky' ) ) . '">Rezervovat</a><span class="sk-jen-ted sk-event-ted">Teď probíhá, do&nbsp;' . esc_html( skalicka_time( $e['end'] ) ) . '</span><a href="' . esc_url( get_permalink( $e['id'] ) ) . '">Detail a do kalendáře</a></div>';
 		$html .= '</div></article>';
 	}
 	return $html . '</div>';

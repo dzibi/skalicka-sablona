@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SKALICKA_VERSION', '1.10.11' );
+define( 'SKALICKA_VERSION', '1.10.12' );
 
 require_once __DIR__ . '/inc/settings.php';
 require_once __DIR__ . '/inc/events.php';
@@ -187,3 +187,30 @@ add_action( 'template_redirect', function () {
 		}
 	}
 }, 1 );
+
+/* Česká typografie: jednopísmenné předložky a spojky (v, k, s, z, o, u, a, i) nenechávat na konci řádku. */
+function skalicka_nbsp( $html ) {
+	if ( ! is_string( $html ) || '' === $html ) {
+		return $html;
+	}
+	$parts = preg_split( '/(<[^>]+>)/u', $html, -1, PREG_SPLIT_DELIM_CAPTURE );
+	$skip  = 0;
+	foreach ( $parts as $i => $p ) {
+		if ( '' === $p ) {
+			continue;
+		}
+		if ( '<' === $p[0] ) {
+			if ( preg_match( '#^<(script|style|svg|textarea|pre)\b#i', $p ) ) {
+				$skip++;
+			} elseif ( preg_match( '#^</(script|style|svg|textarea|pre)>#i', $p ) ) {
+				$skip = max( 0, $skip - 1 );
+			}
+			continue;
+		}
+		if ( ! $skip ) {
+			$parts[ $i ] = preg_replace( '/(?<![\p{L}\p{N}&;])([vkszouaiVKSZOUAI]) +(?=\S)/u', '$1&nbsp;', $p );
+		}
+	}
+	return implode( '', $parts );
+}
+add_filter( 'the_content', 'skalicka_nbsp', 99 );
