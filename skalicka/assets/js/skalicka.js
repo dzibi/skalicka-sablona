@@ -304,7 +304,7 @@
 		if (a.hasAttribute('target') || !external(a)) { return; }
 		a.setAttribute('target', '_blank');
 		var rel = (a.getAttribute('rel') || '').split(/\s+/).filter(Boolean);
-		['noopener', 'noreferrer'].forEach(function (r) { if (rel.indexOf(r) < 0) { rel.push(r); } });
+		['noopener'].forEach(function (r) { if (rel.indexOf(r) < 0) { rel.push(r); } });
 		a.setAttribute('rel', rel.join(' '));
 	}
 	function all() { document.querySelectorAll('a[href]').forEach(mark); }
