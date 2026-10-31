@@ -3,7 +3,7 @@ Theme Name: Skalička
 Theme URI: https://svetskalicka.cz
 Author: Kapilsons s.r.o.
 Description: Šablona pro Dětský svět Skalička – herna s kavárnou v OC Skalka, Příbram. Semafor otevírací doby, napojení na kalendář akcí, členství a rezervace.
-Version: 1.9.2
+Version: 1.9.3
 Requires at least: 6.5
 Requires PHP: 8.1
 License: GNU General Public License v2 or later
@@ -447,3 +447,14 @@ p.sk-teaser{background:#fff!important;border:3px dashed var(--sk-coral);color:va
 @keyframes sk-lift-2{0%,10%{transform:translateY(128px)}30%,38%{transform:translateY(68px)}60%,85%{transform:translateY(8px)}100%{transform:translateY(128px)}}
 .sk-cil{animation:sk-float 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
 @media (prefers-reduced-motion:reduce){.sk-cab-1,.sk-cab-2{animation:none;transform:translateY(8px)}.sk-cil{animation:none}}
+
+/* Načítání s logem (jen když stránka nenaběhne hned) */
+.sk-loader{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;background:rgba(255,248,242,.93);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s ease,visibility 0s linear .25s}
+.sk-loader.is-on{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .25s ease}
+.sk-loader-in{position:relative;width:150px;height:150px;animation:sk-loader-bob 1.1s ease-in-out infinite}
+.sk-loader-in img{width:150px;height:150px;display:block;border-radius:50%}
+.sk-loader-in::before{content:"";position:absolute;inset:-14px;border-radius:50%;border:5px dashed #C08552;border-top-color:#FECC06;border-bottom-color:#FD8F6B;animation:sk-loader-spin 1.6s linear infinite}
+.sk-loader:not(.is-on) .sk-loader-in,.sk-loader:not(.is-on) .sk-loader-in::before{animation-play-state:paused}
+@keyframes sk-loader-spin{to{transform:rotate(360deg)}}
+@keyframes sk-loader-bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-10px) rotate(3deg)}}
+@media (prefers-reduced-motion:reduce){.sk-loader-in,.sk-loader-in::before{animation:none}}

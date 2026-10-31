@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SKALICKA_VERSION', '1.9.2' );
+define( 'SKALICKA_VERSION', '1.9.3' );
 
 require_once __DIR__ . '/inc/settings.php';
 require_once __DIR__ . '/inc/events.php';
@@ -18,6 +18,7 @@ require_once __DIR__ . '/inc/analytika.php';
 require_once __DIR__ . '/inc/pasy.php';
 require_once __DIR__ . '/inc/ilustrace.php';
 require_once __DIR__ . '/inc/aktualizace.php';
+require_once __DIR__ . '/inc/loader.php';
 
 add_action( 'after_setup_theme', function () {
 	add_theme_support( 'title-tag' );
