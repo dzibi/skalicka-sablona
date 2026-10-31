@@ -1,5 +1,5 @@
 {
-  "version": "1.10.4",
-  "zip": "dist/skalicka-sablona-1.10.4.zip",
-  "notes": "Akce zeleně, zavřeno červeně"
+  "version": "1.10.5",
+  "zip": "dist/skalicka-sablona-1.10.5.zip",
+  "notes": "Probíhající akce: Teď probíhá, bez rezervace, po konci zmizí"
 }
