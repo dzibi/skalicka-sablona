@@ -1,5 +1,5 @@
 {
-  "version": "1.9.8",
-  "zip": "dist/skalicka-sablona-1.9.8.zip",
-  "notes": "Kalendář: doladění barev dnů a hlavičky"
+  "version": "1.9.9",
+  "zip": "dist/skalicka-sablona-1.9.9.zip",
+  "notes": "Kalendář: hlavička dnů přes celou šířku"
 }
