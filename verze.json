@@ -1,5 +1,5 @@
 {
-  "version": "1.10.15",
-  "zip": "dist/skalicka-sablona-1.10.15.zip",
-  "notes": "Zdarma tučně na celém webu"
+  "version": "1.10.16",
+  "zip": "dist/skalicka-sablona-1.10.16.zip",
+  "notes": "Kratší text semaforu v hlavičce, aby se neořezával"
 }
