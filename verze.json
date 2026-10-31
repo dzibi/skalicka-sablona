@@ -1,5 +1,5 @@
 {
-  "version": "1.9.3",
+  "version": "1.9.4",
   "zip": "dist/skalicka-sablona.zip",
-  "notes": "Logo při načítání stránek (jen když se načítá déle než 0,5 s nebo po kliknutí na odkaz)"
+  "notes": "Fotky bez popisků, po kliknutí na celou obrazovku s listováním albem"
 }
