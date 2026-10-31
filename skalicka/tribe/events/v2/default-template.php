@@ -25,8 +25,7 @@ $sk_single = is_singular( 'tribe_events' );
 			<?php if ( ! $sk_single ) : ?>
 				<ul class="sk-cal-legend" aria-label="Vysvětlivky">
 					<li class="is-dnes">Dnes</li>
-					<li class="is-pohybovky">Pohybovky</li>
-					<li class="is-akce">Akce</li>
+					<li class="is-akce">Akce, máme otevřeno</li>
 					<li class="is-zavreno">Zavřeno</li>
 				</ul>
 			<?php endif; ?>
