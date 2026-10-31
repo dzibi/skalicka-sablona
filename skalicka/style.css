@@ -3,7 +3,7 @@ Theme Name: Skalička
 Theme URI: https://svetskalicka.cz
 Author: Kapilsons s.r.o.
 Description: Šablona pro Dětský svět Skalička – herna s kavárnou v OC Skalka, Příbram. Semafor otevírací doby, napojení na kalendář akcí, členství a rezervace.
-Version: 1.9.8
+Version: 1.9.9
 Requires at least: 6.5
 Requires PHP: 8.1
 License: GNU General Public License v2 or later
@@ -501,7 +501,7 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-cal .tribe-common *{font-family:"Nunito",system-ui,sans-serif}
 /* horní lišta: tlačítka a měsíc */
 .sk-cal .tribe-events-c-events-bar--border{border-radius:999px;border-color:#E8D6D4}
-.sk-cal .tribe-events-c-top-bar__today-button{border-radius:999px;background:#FECC06;border:0;color:#3C3231;font-weight:800;padding:8px 18px}
+.sk-cal .tribe-common .tribe-events-c-top-bar__today-button{border-radius:999px;background:#FECC06;border:0;color:#3C3231;font-weight:800;padding:8px 18px}
 .sk-cal .tribe-events-c-top-bar__datepicker-desktop,.sk-cal .tribe-events-c-top-bar__datepicker-mobile,.sk-cal .tribe-events-c-top-bar__datepicker-button{font-family:"Just Another Hand","Amatic SC",cursive!important;font-size:2.1rem!important;text-transform:uppercase;font-weight:400!important;line-height:1}
 .sk-cal .tribe-events-c-top-bar__nav-link{background:#FFF8F2;border-radius:50%;width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center}
 .sk-cal .tribe-events-c-top-bar__nav-link:hover{background:#FECC06}
@@ -563,6 +563,7 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-pohybovky) .tribe-events-calendar-month__day-cell--mobile{background:#FD8F6B}
 .sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno) .tribe-events-calendar-month__day-cell--mobile{background:#E84F37}
 .sk-cal .tribe-events-calendar-month__day--past:has(.tribe-events-calendar-month__calendar-event) .tribe-events-calendar-month__day-cell--mobile{opacity:.5}
+.sk-cal .tribe-common .tribe-events-calendar-month__header-column-title{width:100%;flex:1 1 auto;box-sizing:border-box}
 /* vysvětlivky */
 .sk-cal-legend{list-style:none;display:flex;flex-wrap:wrap;gap:8px 14px;margin:0 0 16px;padding:0;font-weight:800;font-size:15px}
 .sk-cal-legend li{display:inline-flex;align-items:center;gap:7px;background:#fff;border-radius:999px;padding:5px 12px 5px 8px}
