@@ -1,5 +1,5 @@
 {
-  "version": "1.10.0",
-  "zip": "dist/skalicka-sablona-1.10.0.zip",
-  "notes": "Zeměkoule přehrává cestu, dnešní akce v semaforu, pruh Dnes a zítra, přehled Tento a příští týden"
+  "version": "1.10.1",
+  "zip": "dist/skalicka-sablona-1.10.1.zip",
+  "notes": "Mobil: logo v hlavičce úvodní stránky, nadpis nezasahuje do štítku"
 }
