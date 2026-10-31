@@ -3,7 +3,7 @@ Theme Name: Skalička
 Theme URI: https://svetskalicka.cz
 Author: Kapilsons s.r.o.
 Description: Šablona pro Dětský svět Skalička – herna s kavárnou v OC Skalka, Příbram. Semafor otevírací doby, napojení na kalendář akcí, členství a rezervace.
-Version: 1.10.12
+Version: 1.10.13
 Requires at least: 6.5
 Requires PHP: 8.1
 License: GNU General Public License v2 or later
@@ -687,3 +687,18 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 /* Dekorace karet nesmí roztáhnout stránku do šířky; termíny Pohybovek v zelené jako v kalendáři */
 .sk-pbands,.sk-front{overflow-x:clip}
 .sk-event .sk-date{background:var(--sk-akce-plna)}
+
+/* Úvodní stránka: karty „Jak si u nás hrát“ barevně jako u oslav, proklik jako výrazné tlačítko */
+.sk-front .sk-cards:not(.sk-party){gap:24px}
+.sk-front .sk-cards:not(.sk-party)>.wp-block-column{border:3px solid var(--sk-choco);border-radius:26px;padding:16px 16px 20px;box-shadow:0 8px 0 var(--sk-choco)}
+.sk-front .wp-block-group .sk-cards:not(.sk-party)>.wp-block-column:nth-child(4n+1){background:#E1EFF4}
+.sk-front .wp-block-group .sk-cards:not(.sk-party)>.wp-block-column:nth-child(4n+2){background:#FFF1B8}
+.sk-front .wp-block-group .sk-cards:not(.sk-party)>.wp-block-column:nth-child(4n+3){background:#DDF2D4}
+.sk-front .wp-block-group .sk-cards:not(.sk-party)>.wp-block-column:nth-child(4n+4){background:#F7E6E2}
+.sk-front .sk-cards:not(.sk-party) h3{font-family:var(--sk-hand);font-weight:400;text-transform:uppercase;font-size:2.3rem;line-height:.95;margin:4px 0 0}
+.sk-front .sk-cards:not(.sk-party)>.wp-block-column>.wp-block-buttons{margin-top:auto}
+/* Tlačítka v kartách na celém webu: tmavá, ať je jasné, že se na ně kliká */
+.sk-cards .is-style-sk-svetla .wp-block-button__link,.sk-band .sk-cards .is-style-sk-svetla .wp-block-button__link{background:var(--sk-choco)!important;color:#fff!important;border-radius:999px;padding:12px 22px;font-weight:800;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 0 rgba(60,50,49,.25);transition:transform .15s ease,background .15s ease}
+.sk-cards .is-style-sk-svetla .wp-block-button__link::after{content:"→";font-weight:900}
+.sk-cards .is-style-sk-svetla .wp-block-button__link:hover{background:var(--sk-coral)!important;transform:translateY(-2px)}
+@media (max-width:700px){.sk-front .sk-cards:not(.sk-party) .wp-block-button,.sk-front .sk-cards:not(.sk-party) .wp-block-button__link{width:100%;justify-content:center}}
