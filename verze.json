@@ -1,5 +1,5 @@
 {
-  "version": "1.10.8",
-  "zip": "dist/skalicka-sablona-1.10.8.zip",
-  "notes": "Ilustrace členství, nadpis u cesty kolem světa, hodnocení na řádky"
+  "version": "1.10.9",
+  "zip": "dist/skalicka-sablona-1.10.9.zip",
+  "notes": "Počítadlo: kratší štítek, popisky měst na zeměkouli se neořezávají"
 }
