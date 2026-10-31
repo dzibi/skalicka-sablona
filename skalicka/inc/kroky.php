@@ -120,8 +120,8 @@ add_shortcode( 'skalicka_kroky', function () {
 	<section class="sk-kroky" data-kroky="<?php echo esc_attr( wp_json_encode( $c ) ); ?>">
 		<div class="sk-kroky-head">
 			<h2>Děti běží kolem světa</h2>
-			<p class="sk-kroky-od">Od otevření v září 2024 · počítadlo běží, když máme otevřeno</p>
-			<p>Kolik kilometrů už u nás děti naběhaly a nalezly.</p>
+			<p class="sk-kroky-od">Od otevření v září 2024</p>
+			<p>Kolik kilometrů už u nás děti naběhaly a nalezly. Počítadlo běží, když máme otevřeno.</p>
 		</div>
 		<p class="sk-kroky-total"><span class="sk-kroky-num" data-k="total"><?php echo esc_html( skalicka_kroky_nf( floor( $total ) ) ); ?></span><span class="sk-kroky-dec" data-k="dec">,<?php echo esc_html( sprintf( '%03d', ( $total - floor( $total ) ) * 1000 ) ); ?></span> <span class="sk-kroky-unit">km</span></p>
 		<p class="sk-kroky-steps">To je asi <strong data-k="steps"><?php echo esc_html( skalicka_kroky_nf( $total * 1000 / $c['stride'] ) ); ?></strong> dětských kroků.</p>
