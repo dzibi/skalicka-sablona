@@ -1,5 +1,5 @@
 {
-  "version": "1.9.2",
+  "version": "1.9.3",
   "zip": "dist/skalicka-sablona.zip",
-  "notes": "Test aktualizace z GitHubu."
+  "notes": "Logo při načítání stránek (jen když se načítá déle než 0,5 s nebo po kliknutí na odkaz)"
 }
