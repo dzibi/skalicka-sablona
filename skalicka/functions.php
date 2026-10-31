@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SKALICKA_VERSION', '1.9.3' );
+define( 'SKALICKA_VERSION', '1.9.4' );
 
 require_once __DIR__ . '/inc/settings.php';
 require_once __DIR__ . '/inc/events.php';
@@ -42,6 +42,7 @@ add_action( 'after_setup_theme', function () {
 add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'skalicka', get_stylesheet_uri(), array(), SKALICKA_VERSION );
 	wp_enqueue_script( 'skalicka', get_template_directory_uri() . '/assets/js/skalicka.js', array(), SKALICKA_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	wp_enqueue_script( 'skalicka-fotky', get_template_directory_uri() . '/assets/js/fotky.js', array(), SKALICKA_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_add_inline_script( 'skalicka', 'window.SKALICKA = ' . wp_json_encode( skalicka_status_config() ) . ';', 'before' );
 } );
 

@@ -3,7 +3,7 @@ Theme Name: Skalička
 Theme URI: https://svetskalicka.cz
 Author: Kapilsons s.r.o.
 Description: Šablona pro Dětský svět Skalička – herna s kavárnou v OC Skalka, Příbram. Semafor otevírací doby, napojení na kalendář akcí, členství a rezervace.
-Version: 1.9.3
+Version: 1.9.4
 Requires at least: 6.5
 Requires PHP: 8.1
 License: GNU General Public License v2 or later
@@ -458,3 +458,25 @@ p.sk-teaser{background:#fff!important;border:3px dashed var(--sk-coral);color:va
 @keyframes sk-loader-spin{to{transform:rotate(360deg)}}
 @keyframes sk-loader-bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-10px) rotate(3deg)}}
 @media (prefers-reduced-motion:reduce){.sk-loader-in,.sk-loader-in::before{animation:none}}
+
+/* Fotky: bez popisků, po kliknutí na celou obrazovku s listováním albem */
+.wp-block-gallery .wp-element-caption,.wp-block-image:not(.sk-mapa) .wp-element-caption{display:none}
+img.sk-zoom{cursor:zoom-in;transition:transform .2s ease,filter .2s ease}
+img.sk-zoom:hover{filter:brightness(1.05)}
+img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
+.sk-lb-open,.sk-lb-open body{overflow:hidden}
+.sk-lb{position:fixed;inset:0;z-index:3000;background:rgba(60,50,49,.94);display:flex;align-items:center;justify-content:center;touch-action:pan-y}
+.sk-lb[hidden]{display:none}
+.sk-lb-fig{margin:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:64px 72px}
+.sk-lb-fig img{max-width:100%;max-height:100%;object-fit:contain;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.35);transition:opacity .2s ease}
+.sk-lb-fig img.is-loading{opacity:.35}
+.sk-lb button{position:absolute;border:0;cursor:pointer;background:#FFF8F2;color:#3C3231;border-radius:50%;width:48px;height:48px;font:700 30px/1 system-ui,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.sk-lb button:hover{background:#FECC06}
+.sk-lb button:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
+.sk-lb button[hidden]{display:none}
+.sk-lb-x{top:14px;right:14px}
+.sk-lb-prev{left:14px;top:50%;transform:translateY(-50%)}
+.sk-lb-next{right:14px;top:50%;transform:translateY(-50%)}
+.sk-lb-count{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);margin:0;background:#FFF8F2;color:#3C3231;font-weight:800;font-size:14px;padding:4px 12px;border-radius:999px}
+.sk-lb-count:empty{display:none}
+@media (max-width:700px){.sk-lb-fig{padding:64px 10px 60px}.sk-lb-prev,.sk-lb-next{top:auto;bottom:10px;transform:none}.sk-lb-count{bottom:22px}}
