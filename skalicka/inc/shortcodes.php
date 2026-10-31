@@ -1,7 +1,7 @@
 <?php
 /**
  * Krátké kódy pro obsah stránek:
- * [skalicka_dnes] [skalicka_tyden] [skalicka_pohybovky pocet="3"] [skalicka_hodiny] [skalicka_tlacitko typ="…" text="…" styl="zluta|svetla"]
+ * [skalicka_dnes] [skalicka_tyden] [skalicka_clenstvi_obr] [skalicka_pohybovky pocet="3"] [skalicka_hodiny] [skalicka_tlacitko typ="…" text="…" styl="zluta|svetla"]
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -213,4 +213,16 @@ add_shortcode( 'skalicka_tlacitko', function ( $atts ) {
 /* Shortcode bloky nejsou v odstavci – necháme je vypsat jako bloky. */
 add_filter( 'no_texturize_shortcodes', function ( $list ) {
 	return array_merge( $list, array( 'skalicka_semafor', 'skalicka_dnes', 'skalicka_tyden', 'skalicka_pohybovky', 'skalicka_hodiny', 'skalicka_tlacitko' ) );
+} );
+
+/* [skalicka_clenstvi_obr] – ilustrace členství v mobilu (QR kód, Aktivní, výhody). */
+add_shortcode( 'skalicka_clenstvi_obr', function () {
+	$svg = (string) @file_get_contents( get_template_directory() . '/assets/img/clenstvi.svg' ); // phpcs:ignore
+	if ( ! $svg ) {
+		return '';
+	}
+	$id   = (int) get_option( 'site_icon' );
+	$logo = $id ? wp_get_attachment_image_url( $id, 'thumbnail' ) : '';
+	$svg  = str_replace( '__LOGO__', esc_url( $logo ), $svg );
+	return '<figure class="sk-clen-obr">' . $svg . '</figure>';
 } );
