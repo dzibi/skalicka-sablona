@@ -1,5 +1,5 @@
 {
-  "version": "1.9.6",
-  "zip": "dist/skalicka-sablona-1.9.6.zip",
-  "notes": "Aktualizace šablony čte verzi přes API GitHubu, bez čekání na mezipaměť"
+  "version": "1.9.7",
+  "zip": "dist/skalicka-sablona-1.9.7.zip",
+  "notes": "Barevný kalendář akcí: měsíční pohled, zvýrazněné dny, vysvětlivky"
 }
