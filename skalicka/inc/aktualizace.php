@@ -17,7 +17,11 @@ function skalicka_update_latest( $force = false ) {
 	}
 	// Kanál vydání: větev „vydani“ obsahuje verze.json a dist/skalicka-sablona.zip.
 	$base = 'https://raw.githubusercontent.com/' . SKALICKA_REPO . '/vydani/';
-	$res  = wp_remote_get( $base . 'verze.json?t=' . time(), array( 'timeout' => 10, 'headers' => array( 'User-Agent' => 'skalicka-sablona' ) ) );
+	// verze.json přes API GitHubu (raw.githubusercontent.com drží starou verzi v mezipaměti až 5 minut).
+	$res = wp_remote_get( 'https://api.github.com/repos/' . SKALICKA_REPO . '/contents/verze.json?ref=vydani', array( 'timeout' => 10, 'headers' => array( 'User-Agent' => 'skalicka-sablona', 'Accept' => 'application/vnd.github.raw' ) ) );
+	if ( is_wp_error( $res ) || 200 !== wp_remote_retrieve_response_code( $res ) ) {
+		$res = wp_remote_get( $base . 'verze.json?t=' . time(), array( 'timeout' => 10, 'headers' => array( 'User-Agent' => 'skalicka-sablona' ) ) );
+	}
 	if ( is_wp_error( $res ) || 200 !== wp_remote_retrieve_response_code( $res ) ) {
 		return null;
 	}
