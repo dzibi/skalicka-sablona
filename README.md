@@ -1,0 +1,1 @@
+# skalicka-sablona
