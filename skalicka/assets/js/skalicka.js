@@ -66,7 +66,7 @@
 			}
 			if (start >= h[1]) { continue; }
 			var when = i === 1 ? 'zítra' : DAYS_ACC[wd];
-			return { atSec: (i * 1440 + start) * 60, text: 'Otevíráme ' + when + ' v ' + fmt(start) };
+			return { atSec: (i * 1440 + start) * 60, text: 'Otevíráme ' + when + ' v ' + fmt(start), short: when + ' od ' + fmt(start) };
 		}
 		return null;
 	}
@@ -89,7 +89,7 @@
 		var hours = parseRange((c.hours || {})[now.wd]);
 		var next = nextOpening(c, now, sameDay);
 		var toOpen = function (s, title, sub) {
-			return { s: s, title: title, sub: sub || (next ? next.text : ''), t: title + (next ? ' · ' + next.text.toLowerCase() : ''), target: next ? next.atSec : null, lbl: 'do otevření' };
+			return { s: s, title: title, sub: sub || (next ? next.text : ''), t: title + (next ? ' · ' + next.short : ''), target: next ? next.atSec : null, lbl: 'do otevření' };
 		};
 
 		if (sameDay && c.manual) {
