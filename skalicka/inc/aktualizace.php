@@ -1,7 +1,7 @@
 <?php
 /**
  * Aktualizace šablony z GitHubu (veřejný repozitář s kódem šablony, bez fotek a osobních údajů).
- * Nová verze = GitHub release s přiloženým souborem skalicka-sablona.zip.
+ * Nová verze = větev „vydani“ se souborem verze.json a dist/skalicka-sablona.zip.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,24 +15,20 @@ function skalicka_update_latest( $force = false ) {
 	if ( $cached && ! $force ) {
 		return $cached;
 	}
-	$res = wp_remote_get( 'https://api.github.com/repos/' . SKALICKA_REPO . '/releases/latest', array(
-		'timeout' => 10,
-		'headers' => array( 'Accept' => 'application/vnd.github+json', 'User-Agent' => 'skalicka-sablona' ),
-	) );
+	// Kanál vydání: větev „vydani“ obsahuje verze.json a dist/skalicka-sablona.zip.
+	$base = 'https://raw.githubusercontent.com/' . SKALICKA_REPO . '/vydani/';
+	$res  = wp_remote_get( $base . 'verze.json?t=' . time(), array( 'timeout' => 10, 'headers' => array( 'User-Agent' => 'skalicka-sablona' ) ) );
 	if ( is_wp_error( $res ) || 200 !== wp_remote_retrieve_response_code( $res ) ) {
 		return null;
 	}
-	$j   = json_decode( wp_remote_retrieve_body( $res ), true );
-	$zip = '';
-	foreach ( (array) ( $j['assets'] ?? array() ) as $a ) {
-		if ( 'skalicka-sablona.zip' === ( $a['name'] ?? '' ) ) {
-			$zip = $a['browser_download_url'];
-		}
+	$j = json_decode( wp_remote_retrieve_body( $res ), true );
+	if ( empty( $j['version'] ) ) {
+		return null;
 	}
 	$out = array(
-		'version' => ltrim( (string) ( $j['tag_name'] ?? '' ), 'v' ),
-		'notes'   => (string) ( $j['body'] ?? '' ),
-		'zip'     => $zip,
+		'version' => (string) $j['version'],
+		'notes'   => (string) ( $j['notes'] ?? '' ),
+		'zip'     => $base . ltrim( (string) ( $j['zip'] ?? 'dist/skalicka-sablona.zip' ), '/' ),
 	);
 	set_transient( 'skalicka_update_latest', $out, 10 * MINUTE_IN_SECONDS );
 	return $out;
@@ -41,7 +37,7 @@ function skalicka_update_latest( $force = false ) {
 function skalicka_update_run() {
 	$latest = skalicka_update_latest( true );
 	if ( ! $latest || ! $latest['zip'] ) {
-		return new WP_Error( 'skalicka_no_release', 'Na GitHubu není žádná vydaná verze se souborem skalicka-sablona.zip.' );
+		return new WP_Error( 'skalicka_no_release', 'Na GitHubu zatím není vydaná žádná verze šablony.' );
 	}
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 	require_once ABSPATH . 'wp-admin/includes/file.php';
