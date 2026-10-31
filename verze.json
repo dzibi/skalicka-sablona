@@ -1,5 +1,5 @@
 {
-  "version": "1.10.6",
-  "zip": "dist/skalicka-sablona-1.10.6.zip",
-  "notes": "Probíhající akce: Teď probíhá, bez rezervace, po konci zmizí"
+  "version": "1.10.7",
+  "zip": "dist/skalicka-sablona-1.10.7.zip",
+  "notes": "Semafor: štítek probíhající akce na jednom řádku"
 }
