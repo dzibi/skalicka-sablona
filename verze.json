@@ -1,5 +1,5 @@
 {
-  "version": "1.9.4",
+  "version": "1.9.5",
   "zip": "dist/skalicka-sablona.zip",
-  "notes": "Fotky bez popisků, po kliknutí na celou obrazovku s listováním albem"
+  "notes": "Prohlížeč fotek: zavírací křížek nad lištou administrace"
 }
