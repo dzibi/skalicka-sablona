@@ -66,7 +66,7 @@
 			</a>
 			<span>Tipy na výlety s dětmi najdete na Kudy z nudy.</span>
 		</div>
-		<div class="sk-footer-bottom">© <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php echo esc_html( skalicka_opt( 'company' ) ); ?></div>
+		<div class="sk-footer-bottom">© <?php echo esc_html( wp_date( 'Y' ) ); ?> Dětský svět Skalička</div>
 	</div>
 </footer>
 <nav class="sk-mbar" aria-label="Rychlé akce">

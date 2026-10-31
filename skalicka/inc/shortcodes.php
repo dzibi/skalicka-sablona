@@ -212,7 +212,7 @@ add_shortcode( 'skalicka_tlacitko', function ( $atts ) {
 
 /* Shortcode bloky nejsou v odstavci – necháme je vypsat jako bloky. */
 add_filter( 'no_texturize_shortcodes', function ( $list ) {
-	return array_merge( $list, array( 'skalicka_semafor', 'skalicka_dnes', 'skalicka_tyden', 'skalicka_obr', 'skalicka_clenstvi_obr', 'skalicka_pohybovky', 'skalicka_hodiny', 'skalicka_tlacitko' ) );
+	return array_merge( $list, array( 'skalicka_semafor', 'skalicka_dnes', 'skalicka_tyden', 'skalicka_hero', 'skalicka_obr', 'skalicka_clenstvi_obr', 'skalicka_pohybovky', 'skalicka_hodiny', 'skalicka_tlacitko' ) );
 } );
 
 /* [skalicka_clenstvi_obr] – ilustrace členství v mobilu (QR kód, Aktivní, výhody). */
@@ -241,4 +241,23 @@ add_shortcode( 'skalicka_obr', function ( $atts ) {
 		$svg = str_replace( '__LOGO__', esc_url( $id ? (string) wp_get_attachment_image_url( $id, 'thumbnail' ) : '' ), $svg );
 	}
 	return '<figure class="sk-clen-obr sk-obr sk-obr--' . esc_attr( $name ) . '">' . $svg . '</figure>';
+} );
+
+/* [skalicka_hero ids="501,53"] – hlavní fotka v úvodu, fotky se pomalu prolínají. */
+add_shortcode( 'skalicka_hero', function ( $atts ) {
+	$atts = shortcode_atts( array( 'ids' => '' ), $atts );
+	$ids  = array_values( array_filter( array_map( 'absint', explode( ',', (string) $atts['ids'] ) ) ) );
+	if ( ! $ids ) {
+		return '';
+	}
+	$html = '';
+	foreach ( $ids as $i => $id ) {
+		$html .= wp_get_attachment_image( $id, 'large', false, array(
+			'class'         => 'sk-slide sk-slide-' . ( $i + 1 ),
+			'loading'       => 0 === $i ? 'eager' : 'lazy',
+			'fetchpriority' => 0 === $i ? 'high' : 'low',
+			'sizes'         => '(max-width: 700px) 90vw, 560px',
+		) );
+	}
+	return '<figure class="wp-block-image size-large sk-hero-show sk-hero-show--' . count( $ids ) . '"><div class="sk-slides">' . $html . '</div></figure>';
 } );
