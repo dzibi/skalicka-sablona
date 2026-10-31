@@ -301,7 +301,7 @@
 		return /\.pdf$/i.test(a.pathname);
 	}
 	function mark(a) {
-		if (a.hasAttribute('target') || !external(a)) { return; }
+		if (a.hasAttribute('target') || a.closest('#wpadminbar') || !external(a)) { return; }
 		a.setAttribute('target', '_blank');
 		var rel = (a.getAttribute('rel') || '').split(/\s+/).filter(Boolean);
 		['noopener'].forEach(function (r) { if (rel.indexOf(r) < 0) { rel.push(r); } });
