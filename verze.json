@@ -1,5 +1,5 @@
 {
-  "version": "1.10.1",
-  "zip": "dist/skalicka-sablona-1.10.1.zip",
-  "notes": "Mobil: logo v hlavičce úvodní stránky, nadpis nezasahuje do štítku"
+  "version": "1.10.2",
+  "zip": "dist/skalicka-sablona-1.10.2.zip",
+  "notes": "Mobil: logo a menu v hlavičce na jednom řádku"
 }
