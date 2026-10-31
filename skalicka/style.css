@@ -3,7 +3,7 @@ Theme Name: Skalička
 Theme URI: https://svetskalicka.cz
 Author: Kapilsons s.r.o.
 Description: Šablona pro Dětský svět Skalička – herna s kavárnou v OC Skalka, Příbram. Semafor otevírací doby, napojení na kalendář akcí, členství a rezervace.
-Version: 1.9.10
+Version: 1.9.11
 Requires at least: 6.5
 Requires PHP: 8.1
 License: GNU General Public License v2 or later
@@ -511,18 +511,18 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-cal .tribe-events-calendar-month__header-column-title{display:block;width:auto;background:#A3CBD6;color:#fff;font-weight:800;border-radius:10px;padding:6px 0;text-align:center}
 .sk-cal .tribe-events-calendar-month__header-column-title *{color:#fff!important}
 /* měsíc: dny */
-.sk-cal .tribe-events-calendar-month__day{background:#FFF8F2;position:relative;transition:background .2s}
-.sk-cal .tribe-events-calendar-month__day--past{background:#fff}
-.sk-cal .tribe-events-calendar-month__day--past .tribe-events-calendar-month__day-date-daynum{opacity:.45}
-.sk-cal .tribe-events-calendar-month__day--other-month{background:#fff}
-.sk-cal .tribe-events-calendar-month__day:has(.tribe-events-calendar-month__calendar-event){background:#FFF1B8}
-.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-pohybovky){background:#FFD9C8}
-.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno){background:repeating-linear-gradient(-45deg,#FBE1DC 0 10px,#F7D2CB 10px 20px)}
-.sk-cal .tribe-events-calendar-month__day--past:has(.tribe-events-calendar-month__calendar-event){filter:saturate(.55);opacity:.8}
-.sk-cal .tribe-events-calendar-month__day-date-daynum{font-weight:800;font-size:1.05rem}
+.sk-cal .tribe-common .tribe-events-calendar-month__day{background:#FFF8F2;position:relative;transition:background .2s}
+.sk-cal .tribe-common .tribe-events-calendar-month__day--past{background:#fff}
+.sk-cal .tribe-common .tribe-events-calendar-month__day--past .tribe-events-calendar-month__day-date-daynum{opacity:.45}
+.sk-cal .tribe-common .tribe-events-calendar-month__day--other-month{background:#fff}
+.sk-cal .tribe-common .tribe-events-calendar-month__day:has(.tribe-events-calendar-month__calendar-event){background:#FFF1B8}
+.sk-cal .tribe-common .tribe-events-calendar-month__day:has(.tribe_events_cat-pohybovky){background:#FFD9C8}
+.sk-cal .tribe-common .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno){background:repeating-linear-gradient(-45deg,#FBE1DC 0 10px,#F7D2CB 10px 20px)}
+.sk-cal .tribe-common .tribe-events-calendar-month__day--past:has(.tribe-events-calendar-month__calendar-event){filter:saturate(.55);opacity:.8}
+.sk-cal .tribe-common .tribe-events-calendar-month__day-date-daynum{font-weight:800;font-size:1.05rem}
 .sk-cal .tribe-common--breakpoint-medium .tribe-events-calendar-month__day--current{box-shadow:inset 0 0 0 4px #FECC06;z-index:1}
-.sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-date-daynum,.sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-date-link{background:#FECC06;color:#3C3231;border-radius:999px;display:inline-flex;min-width:30px;height:30px;align-items:center;justify-content:center;padding:0 6px}
-.sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-cell--desktop::after{content:"Dnes";position:absolute;top:10px;right:10px;font-size:12px;font-weight:800;background:#3C3231;color:#fff;border-radius:999px;padding:1px 8px}
+.sk-cal .tribe-common .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-date-daynum,.sk-cal .tribe-common .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-date-link{background:#FECC06;color:#3C3231;border-radius:999px;display:inline-flex;min-width:30px;height:30px;align-items:center;justify-content:center;padding:0 6px}
+.sk-cal .tribe-common .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-cell--desktop::after{content:"Dnes";position:absolute;top:10px;right:10px;font-size:12px;font-weight:800;background:#3C3231;color:#fff;border-radius:999px;padding:1px 8px}
 /* měsíc: akce v buňce */
 .sk-cal .tribe-events-calendar-month__calendar-event{background:#fff;border-radius:12px;padding:8px 10px;margin:6px 0 0;border-left:6px solid #FECC06;box-shadow:0 2px 8px rgba(60,50,49,.08)}
 .sk-cal .tribe-events-calendar-month__calendar-event.tribe_events_cat-pohybovky{border-left-color:#FD8F6B}
@@ -530,15 +530,15 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-cal .tribe-events-calendar-month__calendar-event-title,.sk-cal .tribe-events-calendar-month__calendar-event-title-link{font-weight:800!important;font-size:15px}
 .sk-cal .tribe-events-calendar-month__calendar-event-datetime{font-weight:700;font-size:13px}
 /* měsíc na mobilu: celé políčko dne v barvě */
-.sk-cal .tribe-events-calendar-month__day-cell--mobile{border-radius:12px;margin:2px;width:calc(100% - 4px)}
-.sk-cal .tribe-events-calendar-month__day:has(.tribe-events-calendar-month__calendar-event) .tribe-events-calendar-month__day-cell--mobile{background:#FECC06}
-.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-pohybovky) .tribe-events-calendar-month__day-cell--mobile{background:#FD8F6B}
-.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno) .tribe-events-calendar-month__day-cell--mobile{background:#E84F37}
-.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno) .tribe-events-calendar-month__day-cell--mobile *{color:#fff}
-.sk-cal .tribe-events-calendar-month__day-cell--mobile .tribe-events-calendar-month__mobile-events-icon{background:#3C3231}
-.sk-cal .tribe-events-calendar-month__day:not(.tribe-events-calendar-month__day--past) .tribe-events-calendar-month__day-cell--mobile{background:#FFF8F2}
-.sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-cell--mobile{background:#fff;box-shadow:inset 0 0 0 3px #FECC06}
-.sk-cal .tribe-events-calendar-month__day-cell--selected{outline:3px solid #3C3231;outline-offset:-1px}
+.sk-cal .tribe-common .tribe-events-calendar-month__day-cell--mobile{border-radius:12px;margin:2px;width:calc(100% - 4px)}
+.sk-cal .tribe-common .tribe-events-calendar-month__day:has(.tribe-events-calendar-month__calendar-event) .tribe-events-calendar-month__day-cell--mobile{background:#FECC06}
+.sk-cal .tribe-common .tribe-events-calendar-month__day:has(.tribe_events_cat-pohybovky) .tribe-events-calendar-month__day-cell--mobile{background:#FD8F6B}
+.sk-cal .tribe-common .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno) .tribe-events-calendar-month__day-cell--mobile{background:#E84F37}
+.sk-cal .tribe-common .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno) .tribe-events-calendar-month__day-cell--mobile *{color:#fff}
+.sk-cal .tribe-common .tribe-events-calendar-month__day-cell--mobile .tribe-events-calendar-month__mobile-events-icon{background:#3C3231}
+.sk-cal .tribe-common .tribe-events-calendar-month__day:not(.tribe-events-calendar-month__day--past) .tribe-events-calendar-month__day-cell--mobile{background:#FFF8F2}
+.sk-cal .tribe-common .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-cell--mobile{background:#fff;box-shadow:inset 0 0 0 3px #FECC06}
+.sk-cal .tribe-common .tribe-events-calendar-month__day-cell--selected{outline:3px solid #3C3231;outline-offset:-1px}
 .sk-cal .tribe-events-calendar-month-mobile-events__mobile-event{background:#FFF8F2;border-radius:16px;padding:12px 14px;margin-bottom:10px;border-left:6px solid #FECC06}
 .sk-cal .tribe-events-calendar-month-mobile-events__mobile-event.tribe_events_cat-pohybovky{border-left-color:#FD8F6B;background:#EAF6F5}
 .sk-cal .tribe-events-calendar-month-mobile-events__mobile-event.tribe_events_cat-zavreno{border-left-color:#E84F37;background:#FBE1DC}
@@ -560,10 +560,10 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-cal .tribe-common .tribe-events-c-subscribe-dropdown__button{border-radius:999px;border:2px solid #3C3231;background:#fff;color:#3C3231}
 .sk-cal .tribe-common .tribe-events-c-subscribe-dropdown__button *{color:#3C3231;fill:#3C3231}
 .sk-cal .tribe-events-c-nav__prev,.sk-cal .tribe-events-c-nav__next{font-weight:800}
-.sk-cal .tribe-events-calendar-month__day:has(.tribe-events-calendar-month__calendar-event) .tribe-events-calendar-month__day-cell--mobile{background:#FECC06}
-.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-pohybovky) .tribe-events-calendar-month__day-cell--mobile{background:#FD8F6B}
-.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno) .tribe-events-calendar-month__day-cell--mobile{background:#E84F37}
-.sk-cal .tribe-events-calendar-month__day--past:has(.tribe-events-calendar-month__calendar-event) .tribe-events-calendar-month__day-cell--mobile{opacity:.5}
+.sk-cal .tribe-common .tribe-events-calendar-month__day:has(.tribe-events-calendar-month__calendar-event) .tribe-events-calendar-month__day-cell--mobile{background:#FECC06}
+.sk-cal .tribe-common .tribe-events-calendar-month__day:has(.tribe_events_cat-pohybovky) .tribe-events-calendar-month__day-cell--mobile{background:#FD8F6B}
+.sk-cal .tribe-common .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno) .tribe-events-calendar-month__day-cell--mobile{background:#E84F37}
+.sk-cal .tribe-common .tribe-events-calendar-month__day--past:has(.tribe-events-calendar-month__calendar-event) .tribe-events-calendar-month__day-cell--mobile{opacity:.5}
 .sk-cal .tribe-common .tribe-events-calendar-month__header-column-title{width:100%;flex:1 1 auto;box-sizing:border-box}
 .sk-cal .tribe-common .tribe-events-calendar-month__header-column{justify-self:stretch;width:auto}
 .sk-cal .tribe-common .tribe-events-calendar-month__header-column-title{text-align:center;font-size:14px;text-transform:uppercase;letter-spacing:.5px}
