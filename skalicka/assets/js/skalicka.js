@@ -291,3 +291,27 @@
 	}
 	if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', konfety); } else { konfety(); }
 })();
+
+/* Odkazy mimo web (Reenio, Stripe, sociální sítě, mapy…) a PDF otevírat v nové záložce. */
+(function () {
+	'use strict';
+	function external(a) {
+		if (!/^https?:$/.test(a.protocol)) { return false; }
+		if (a.hostname !== location.hostname) { return true; }
+		return /\.pdf$/i.test(a.pathname);
+	}
+	function mark(a) {
+		if (a.hasAttribute('target') || !external(a)) { return; }
+		a.setAttribute('target', '_blank');
+		var rel = (a.getAttribute('rel') || '').split(/\s+/).filter(Boolean);
+		['noopener', 'noreferrer'].forEach(function (r) { if (rel.indexOf(r) < 0) { rel.push(r); } });
+		a.setAttribute('rel', rel.join(' '));
+	}
+	function all() { document.querySelectorAll('a[href]').forEach(mark); }
+	// I pro odkazy, které se načtou až později (kalendář, Instagram): nastaví se při kliknutí.
+	document.addEventListener('click', function (e) {
+		var a = e.target.closest ? e.target.closest('a[href]') : null;
+		if (a) { mark(a); }
+	}, true);
+	if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', all); } else { all(); }
+})();
