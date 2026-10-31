@@ -171,11 +171,12 @@ add_shortcode( 'skalicka_pohybovky', function ( $atts ) {
 	}
 	$html = '<div class="sk-events">';
 	foreach ( $events as $e ) {
-		$html .= '<article class="sk-event">';
+		$live  = skalicka_live( $e, new DateTimeImmutable( 'now', wp_timezone() ) );
+		$html .= '<article class="sk-event' . $live[1] . '"' . $live[0] . '>';
 		$html .= '<div class="sk-date"><span>' . esc_html( skalicka_weekday_short( $e['start'] ) ) . '</span><b>' . esc_html( $e['start']->format( 'j' ) ) . '</b><span>' . esc_html( skalicka_month_gen( $e['start']->format( 'n' ) ) ) . '</span></div>';
 		$html .= '<div><h3>' . esc_html( $e['title'] ) . '</h3>';
 		$html .= '<p>' . esc_html( skalicka_time( $e['start'] ) ) . ' · 3–6 let · platíte na místě, členové zdarma</p>';
-		$html .= '<div class="sk-event-links"><a href="' . esc_url( skalicka_link( 'pohybovky' ) ) . '">Rezervovat</a><a href="' . esc_url( get_permalink( $e['id'] ) ) . '">Detail a do kalendáře</a></div>';
+		$html .= '<div class="sk-event-links"><a class="sk-jen-pred" href="' . esc_url( skalicka_link( 'pohybovky' ) ) . '">Rezervovat</a><span class="sk-jen-ted sk-event-ted">Teď probíhá, do ' . esc_html( skalicka_time( $e['end'] ) ) . '</span><a href="' . esc_url( get_permalink( $e['id'] ) ) . '">Detail a do kalendáře</a></div>';
 		$html .= '</div></article>';
 	}
 	return $html . '</div>';

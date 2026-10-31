@@ -3,7 +3,7 @@ Theme Name: Skalička
 Theme URI: https://svetskalicka.cz
 Author: Kapilsons s.r.o.
 Description: Šablona pro Dětský svět Skalička – herna s kavárnou v OC Skalka, Příbram. Semafor otevírací doby, napojení na kalendář akcí, členství a rezervace.
-Version: 1.10.5
+Version: 1.10.6
 Requires at least: 6.5
 Requires PHP: 8.1
 License: GNU General Public License v2 or later
@@ -582,7 +582,7 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 /* Dnešní akce v semaforu */
 .sk-sem-dnes{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .sk-sem-akce{display:inline-flex;align-items:center;gap:7px;background:#FFF1B8;border-radius:999px;padding:4px 12px 4px 4px;font-weight:800;font-size:14px;text-decoration:none;color:#3C3231}
-.sk-sem-akce span{background:#3C3231;color:#fff;border-radius:999px;padding:2px 8px;font-size:12px}
+.sk-sem-tag{background:#3C3231;color:#fff;border-radius:999px;padding:2px 8px;font-size:12px}
 .sk-sem-akce.is-pohybovky{background:#FFD9C8}
 .sk-sem-akce:hover{text-decoration:underline}
 
@@ -647,3 +647,16 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-dnes-den .sk-pill--pohybovky,.sk-dnes-den .sk-pill--akce{background:var(--sk-akce)!important}
 .sk-tyden-list li,.sk-tyden-list li.is-pohybovky,.sk-tyden-list li.is-akce{background:var(--sk-akce)}
 .sk-tyden-list li.is-zavreno{background:#FBE1DC}
+
+/* Akce, která právě probíhá: „Teď probíhá“, bez rezervace; po skončení zmizí */
+[data-sk-od]:not(.is-ted) .sk-jen-ted{display:none}
+.is-ted .sk-jen-pred{display:none!important}
+.is-konec{display:none!important}
+.sk-sem-akce.is-ted .sk-sem-tag{background:#2E8B57}
+.sk-sem-akce.is-ted.is-rez{pointer-events:none;cursor:default}
+.sk-sem-akce.is-ted.is-rez:hover{text-decoration:none}
+.sk-pill.is-ted,.sk-tyden-list li.is-ted,.sk-sem-akce.is-ted{box-shadow:inset 0 0 0 2px #2E8B57}
+.sk-tyden-btn--off{background:#2E8B57;cursor:default}
+.sk-tyden-btn--off:hover{background:#2E8B57}
+.sk-event-ted{color:#2E8B57;font-weight:800}
+.sk-pill.is-ted b,.sk-tyden-list li.is-ted b{color:#1f6b40}
