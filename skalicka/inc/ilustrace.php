@@ -38,6 +38,11 @@ function skalicka_page_art( $slug ) {
 		// Školky a školy: batoh
 		'skolky-a-skoly'  => "<path d='M50 46h60a16 16 0 0 1 16 16v54a10 10 0 0 1-10 10H44a10 10 0 0 1-10-10V62a16 16 0 0 1 16-16z' fill='#FD8F6B' $s/><path d='M62 46v-8a18 18 0 0 1 36 0v8' fill='none' $s/>"
 			. "<rect x='50' y='78' width='60' height='32' rx='8' fill='#FECC06' $s/><path d='M70 78v10M90 78v10' fill='none' $s/>",
+		// Kalendář: list s kroužky a barevnými dny
+		'kalendar'        => "<rect x='22' y='30' width='112' height='100' rx='12' fill='#FFF8F2' $s/><path d='M22 42a12 12 0 0 1 12-12h88a12 12 0 0 1 12 12v16H22z' fill='#E84F37' $s/>"
+			. "<path d='M50 20v20M106 20v20' fill='none' $s/>"
+			. "<rect x='36' y='70' width='18' height='16' rx='4' fill='#B2DCD9'/><rect x='62' y='70' width='18' height='16' rx='4' fill='#E8D6D4'/><rect x='88' y='70' width='18' height='16' rx='4' fill='#FD8F6B'/><rect x='36' y='96' width='18' height='16' rx='4' fill='#E8D6D4'/><rect x='62' y='96' width='18' height='16' rx='4' fill='#FECC06' $s/><rect x='88' y='96' width='18' height='16' rx='4' fill='#B2DCD9'/>"
+			. "<path d='M142 8l5 11 12 2-9 8 2 12-10-6-10 6 2-12-9-8 12-2z' fill='#FECC06' $s/>",
 	);
 	if ( ! isset( $art[ $slug ] ) ) {
 		return '';

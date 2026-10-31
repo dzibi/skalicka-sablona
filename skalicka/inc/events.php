@@ -170,3 +170,7 @@ function skalicka_weekday_short( DateTimeInterface $d ) {
 function skalicka_time( DateTimeInterface $d ) {
 	return $d->format( 'G:i' );
 }
+
+/* Kalendář otevírat rovnou v měsíčním pohledu (na počítači i mobilu), dny s akcí jsou barevné. */
+add_filter( 'tribe_get_option_viewOption', function () { return 'month'; } );
+add_filter( 'tribe_get_option_mobile_default_view', function () { return 'month'; } );

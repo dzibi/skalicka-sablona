@@ -3,7 +3,7 @@ Theme Name: Skalička
 Theme URI: https://svetskalicka.cz
 Author: Kapilsons s.r.o.
 Description: Šablona pro Dětský svět Skalička – herna s kavárnou v OC Skalka, Příbram. Semafor otevírací doby, napojení na kalendář akcí, členství a rezervace.
-Version: 1.9.6
+Version: 1.9.7
 Requires at least: 6.5
 Requires PHP: 8.1
 License: GNU General Public License v2 or later
@@ -481,3 +481,90 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-lb-count:empty{display:none}
 @media (max-width:700px){.sk-lb-fig{padding:64px 10px 60px}.sk-lb-prev,.sk-lb-next{top:auto;bottom:10px;transform:none}.sk-lb-count{bottom:22px}}
 .admin-bar .sk-lb-x{top:60px}
+
+/* ---------- Kalendář akcí (The Events Calendar) ---------- */
+.sk-cal-band .sk-pband-in{max-width:1120px}
+.sk-cal h2::before{display:none}
+.sk-cal .tribe-common{
+  --tec-color-accent-primary:#FECC06;--tec-color-accent-primary-hover:#FECC06;--tec-color-accent-primary-active:#FECC06;
+  --tec-color-accent-primary-background:#FFF1B8;--tec-color-accent-primary-background-datepicker:#FFF1B8;--tec-color-accent-primary-multiday:#FFE58A;--tec-color-accent-primary-multiday-hover:#FECC06;
+  --tec-color-accent-secondary:#B2DCD9;--tec-color-text-primary:#3C3231;--tec-color-text-primary-light:rgba(60,50,49,.62);--tec-color-text-secondary:#5a4d4b;
+  --tec-color-text-events-title:#3C3231;--tec-color-text-event-title:#3C3231;--tec-color-text-event-date:#3C3231;--tec-color-text-day-of-week-month:#3C3231;
+  --tec-color-link-primary:#3C3231;--tec-color-link-accent:#3C3231;--tec-color-link-accent-hover:#3C3231;
+  --tec-color-icon-active:#3C3231;--tec-color-icon-focus:#3C3231;--tec-color-day-marker-month:#3C3231;--tec-color-day-marker-past-month:rgba(60,50,49,.45);
+  --tec-color-button-primary:#FECC06;--tec-color-button-primary-hover:#FECC06;--tec-color-background-events-bar-submit-button:#FECC06;--tec-color-background-events-bar-submit-button-hover:#FECC06;
+  --tec-color-border-default:#E8D6D4;--tec-color-border-secondary:#E8D6D4;--tec-color-border-tertiary:#E8D6D4;--tec-color-border-secondary-month-grid:#E8D6D4;
+  --tec-font-family-sans-serif:"Nunito",system-ui,sans-serif;--tec-font-family-base:"Nunito",system-ui,sans-serif;
+}
+.sk-cal .tribe-common--breakpoint-medium.tribe-events .tribe-events-l-container,.sk-cal .tribe-events .tribe-events-l-container{padding:20px 18px 28px;min-height:0}
+.sk-cal .tribe-events-view{background:#fff;border-radius:28px;box-shadow:0 10px 30px rgba(60,50,49,.10);border:3px solid #3C3231}
+.sk-cal .tribe-common *{font-family:"Nunito",system-ui,sans-serif}
+/* horní lišta: tlačítka a měsíc */
+.sk-cal .tribe-events-c-events-bar--border{border-radius:999px;border-color:#E8D6D4}
+.sk-cal .tribe-events-c-top-bar__today-button{border-radius:999px;background:#FECC06;border:0;color:#3C3231;font-weight:800;padding:8px 18px}
+.sk-cal .tribe-events-c-top-bar__datepicker-desktop,.sk-cal .tribe-events-c-top-bar__datepicker-mobile,.sk-cal .tribe-events-c-top-bar__datepicker-button{font-family:"Just Another Hand","Amatic SC",cursive!important;font-size:2.1rem!important;text-transform:uppercase;font-weight:400!important;line-height:1}
+.sk-cal .tribe-events-c-top-bar__nav-link{background:#FFF8F2;border-radius:50%;width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center}
+.sk-cal .tribe-events-c-top-bar__nav-link:hover{background:#FECC06}
+.sk-cal .tribe-events-c-view-selector__button{border-radius:999px}
+/* měsíc: hlavička dnů */
+.sk-cal .tribe-events-calendar-month__header-column-title{background:#A3CBD6;color:#fff;font-weight:800;border-radius:10px;margin:0 2px 6px;padding:6px 0}
+.sk-cal .tribe-events-calendar-month__header-column-title *{color:#fff!important}
+/* měsíc: dny */
+.sk-cal .tribe-events-calendar-month__day{background:#FFF8F2;position:relative;transition:background .2s}
+.sk-cal .tribe-events-calendar-month__day--past{background:#fff}
+.sk-cal .tribe-events-calendar-month__day--past .tribe-events-calendar-month__day-date-daynum{opacity:.45}
+.sk-cal .tribe-events-calendar-month__day--other-month{background:#fff}
+.sk-cal .tribe-events-calendar-month__day:has(.tribe-events-calendar-month__calendar-event){background:#FFF1B8}
+.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-pohybovky){background:#D7EEEC}
+.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno){background:repeating-linear-gradient(-45deg,#FBE1DC 0 10px,#F7D2CB 10px 20px)}
+.sk-cal .tribe-events-calendar-month__day--past:has(.tribe-events-calendar-month__calendar-event){filter:saturate(.55);opacity:.8}
+.sk-cal .tribe-events-calendar-month__day-date-daynum{font-weight:800;font-size:1.05rem}
+.sk-cal .tribe-events-calendar-month__day--current{box-shadow:inset 0 0 0 4px #FECC06;z-index:1}
+.sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-date-daynum,.sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-date-link{background:#FECC06;color:#3C3231;border-radius:999px;display:inline-flex;min-width:30px;height:30px;align-items:center;justify-content:center;padding:0 6px}
+.sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-cell--desktop::after{content:"Dnes";position:absolute;top:10px;right:10px;font-size:12px;font-weight:800;background:#3C3231;color:#fff;border-radius:999px;padding:1px 8px}
+/* měsíc: akce v buňce */
+.sk-cal .tribe-events-calendar-month__calendar-event{background:#fff;border-radius:12px;padding:8px 10px;margin:6px 0 0;border-left:6px solid #FECC06;box-shadow:0 2px 8px rgba(60,50,49,.08)}
+.sk-cal .tribe-events-calendar-month__calendar-event.tribe_events_cat-pohybovky{border-left-color:#FD8F6B}
+.sk-cal .tribe-events-calendar-month__calendar-event.tribe_events_cat-zavreno{border-left-color:#E84F37}
+.sk-cal .tribe-events-calendar-month__calendar-event-title,.sk-cal .tribe-events-calendar-month__calendar-event-title-link{font-weight:800!important;font-size:15px}
+.sk-cal .tribe-events-calendar-month__calendar-event-datetime{font-weight:700;font-size:13px}
+/* měsíc na mobilu: celé políčko dne v barvě */
+.sk-cal .tribe-events-calendar-month__day-cell--mobile{border-radius:12px;margin:2px;width:calc(100% - 4px)}
+.sk-cal .tribe-events-calendar-month__day:has(.tribe-events-calendar-month__calendar-event) .tribe-events-calendar-month__day-cell--mobile{background:#FECC06}
+.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-pohybovky) .tribe-events-calendar-month__day-cell--mobile{background:#FD8F6B}
+.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno) .tribe-events-calendar-month__day-cell--mobile{background:#E84F37}
+.sk-cal .tribe-events-calendar-month__day:has(.tribe_events_cat-zavreno) .tribe-events-calendar-month__day-cell--mobile *{color:#fff}
+.sk-cal .tribe-events-calendar-month__day-cell--mobile .tribe-events-calendar-month__mobile-events-icon{background:#3C3231}
+.sk-cal .tribe-events-calendar-month__day--current .tribe-events-calendar-month__day-cell--mobile{box-shadow:inset 0 0 0 3px #3C3231}
+.sk-cal .tribe-events-calendar-month__day-cell--selected{outline:3px solid #3C3231;outline-offset:-3px}
+.sk-cal .tribe-events-calendar-month-mobile-events__mobile-event{background:#FFF8F2;border-radius:16px;padding:12px 14px;margin-bottom:10px;border-left:6px solid #FECC06}
+.sk-cal .tribe-events-calendar-month-mobile-events__mobile-event.tribe_events_cat-pohybovky{border-left-color:#FD8F6B;background:#EAF6F5}
+.sk-cal .tribe-events-calendar-month-mobile-events__mobile-event.tribe_events_cat-zavreno{border-left-color:#E84F37;background:#FBE1DC}
+.sk-cal .tribe-events-calendar-month-mobile-events__mobile-day-date-text,.sk-cal .tribe-events-calendar-month-mobile-events__mobile-event-title{font-weight:800}
+/* seznam */
+.sk-cal .tribe-events-calendar-list__month-separator-text{background:#A3CBD6;color:#fff;font-weight:800;border-radius:999px;padding:4px 14px}
+.sk-cal .tribe-events-calendar-list__month-separator::after{background:#E8D6D4}
+.sk-cal .tribe-events-calendar-list__event-row{background:#FFF8F2;border-radius:20px;padding:16px 8px;margin:0 0 14px;align-items:center}
+.sk-cal .tribe-events-calendar-list__event-row:has(.tribe_events_cat-pohybovky){background:#EAF6F5}
+.sk-cal .tribe-events-calendar-list__event-row:has(.tribe_events_cat-zavreno){background:#FBE1DC}
+.sk-cal .tribe-events-calendar-list__event-date-tag-datetime{background:#FECC06;border-radius:18px;padding:8px 4px;min-width:56px;display:flex;flex-direction:column;align-items:center}
+.sk-cal .tribe_events_cat-pohybovky .tribe-events-calendar-list__event-date-tag-datetime{background:#FD8F6B}
+.sk-cal .tribe_events_cat-zavreno .tribe-events-calendar-list__event-date-tag-datetime{background:#E84F37;color:#fff}
+.sk-cal .tribe-events-calendar-list__event-date-tag-weekday,.sk-cal .tribe-events-calendar-list__event-date-tag-daynum{color:inherit;font-weight:800}
+.sk-cal .tribe-events-calendar-list__event-title,.sk-cal .tribe-events-calendar-list__event-title-link{font-weight:800!important;font-size:1.3rem}
+.sk-cal .tribe-events-calendar-list__event-venue{display:none}
+.sk-cal .tribe-events-calendar-list__event-row--featured .tribe-events-calendar-list__event-date-tag-datetime::after{display:none}
+/* odkazy a patička kalendáře */
+.sk-cal .tribe-events-c-subscribe-dropdown__button{border-radius:999px;border:2px solid #3C3231;background:#fff}
+.sk-cal .tribe-events-c-nav__prev,.sk-cal .tribe-events-c-nav__next{font-weight:800}
+/* vysvětlivky */
+.sk-cal-legend{list-style:none;display:flex;flex-wrap:wrap;gap:8px 14px;margin:0 0 16px;padding:0;font-weight:800;font-size:15px}
+.sk-cal-legend li{display:inline-flex;align-items:center;gap:7px;background:#fff;border-radius:999px;padding:5px 12px 5px 8px}
+.sk-cal-legend li::before{content:"";width:16px;height:16px;border-radius:5px;background:#FECC06}
+.sk-cal-legend .is-dnes::before{background:#fff;box-shadow:inset 0 0 0 3px #FECC06}
+.sk-cal-legend .is-pohybovky::before{background:#FD8F6B}
+.sk-cal-legend .is-zavreno::before{background:#E84F37}
+/* detail akce */
+.sk-cal .tribe-events-single{background:#fff;border-radius:28px;padding:24px;border:3px solid #3C3231}
+.sk-cal .tribe-events-single-event-title{display:none}
+.sk-cal .tribe-events-back a{font-weight:800}
