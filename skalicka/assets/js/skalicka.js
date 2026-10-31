@@ -315,3 +315,31 @@
 	}, true);
 	if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', all); } else { all(); }
 })();
+
+/* Akce v přehledech: v čase konání přepnout na „Teď probíhá“ (bez rezervace), po konci skrýt. */
+(function () {
+	'use strict';
+	function tick() {
+		var now = Date.now() / 1000;
+		document.querySelectorAll('[data-sk-od][data-sk-do]').forEach(function (el) {
+			var od = +el.getAttribute('data-sk-od'), konec = +el.getAttribute('data-sk-do');
+			if (now >= konec) { el.classList.add('is-konec'); el.classList.remove('is-ted'); }
+			else if (now >= od) {
+				if (!el.classList.contains('is-ted')) {
+					el.classList.add('is-ted');
+					if (el.classList.contains('is-rez')) { el.setAttribute('aria-disabled', 'true'); el.setAttribute('tabindex', '-1'); }
+				}
+			}
+		});
+	}
+	function start() {
+		document.querySelectorAll('.sk-sem-akce.is-rez.is-ted').forEach(function (a) { a.setAttribute('aria-disabled', 'true'); a.setAttribute('tabindex', '-1'); });
+		tick(); setInterval(tick, 15000);
+	}
+	// probíhající rezervační štítek nejde otevřít ani klávesnicí
+	document.addEventListener('click', function (e) {
+		var a = e.target.closest ? e.target.closest('.sk-sem-akce.is-rez.is-ted') : null;
+		if (a) { e.preventDefault(); }
+	}, true);
+	if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', start); } else { start(); }
+})();

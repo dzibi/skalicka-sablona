@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SKALICKA_VERSION', '1.10.4' );
+define( 'SKALICKA_VERSION', '1.10.5' );
 
 require_once __DIR__ . '/inc/settings.php';
 require_once __DIR__ . '/inc/events.php';
