@@ -1,5 +1,5 @@
 {
-  "version": "1.10.2",
-  "zip": "dist/skalicka-sablona-1.10.2.zip",
-  "notes": "Mobil: logo a menu v hlavičce na jednom řádku"
+  "version": "1.10.3",
+  "zip": "dist/skalicka-sablona-1.10.3.zip",
+  "notes": "Akce, které nezavírají hernu, jsou zelené, zavřeno červeně"
 }
