@@ -1,5 +1,5 @@
 {
-  "version": "1.9.11",
-  "zip": "dist/skalicka-sablona-1.9.11.zip",
-  "notes": "Kalendář: budoucí dny v krémové"
+  "version": "1.9.12",
+  "zip": "dist/skalicka-sablona-1.9.12.zip",
+  "notes": "Odkazy mimo web se otevírají v nové záložce"
 }
