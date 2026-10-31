@@ -212,7 +212,7 @@ add_shortcode( 'skalicka_tlacitko', function ( $atts ) {
 
 /* Shortcode bloky nejsou v odstavci – necháme je vypsat jako bloky. */
 add_filter( 'no_texturize_shortcodes', function ( $list ) {
-	return array_merge( $list, array( 'skalicka_semafor', 'skalicka_dnes', 'skalicka_tyden', 'skalicka_pohybovky', 'skalicka_hodiny', 'skalicka_tlacitko' ) );
+	return array_merge( $list, array( 'skalicka_semafor', 'skalicka_dnes', 'skalicka_tyden', 'skalicka_obr', 'skalicka_clenstvi_obr', 'skalicka_pohybovky', 'skalicka_hodiny', 'skalicka_tlacitko' ) );
 } );
 
 /* [skalicka_clenstvi_obr] – ilustrace členství v mobilu (QR kód, Aktivní, výhody). */
@@ -225,4 +225,20 @@ add_shortcode( 'skalicka_clenstvi_obr', function () {
 	$logo = $id ? wp_get_attachment_image_url( $id, 'thumbnail' ) : '';
 	$svg  = str_replace( '__LOGO__', esc_url( $logo ), $svg );
 	return '<figure class="sk-clen-obr">' . $svg . '</figure>';
+} );
+
+/* [skalicka_obr nazev="vstup|lekce|clenstvi"] – animované ilustrace na kartách (soubory v assets/img). */
+add_shortcode( 'skalicka_obr', function ( $atts ) {
+	$atts = shortcode_atts( array( 'nazev' => '' ), $atts );
+	$name = preg_replace( '/[^a-z]/', '', (string) $atts['nazev'] );
+	$file = get_template_directory() . '/assets/img/' . $name . '.svg';
+	if ( ! $name || ! is_readable( $file ) ) {
+		return '';
+	}
+	$svg = (string) file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	if ( false !== strpos( $svg, '__LOGO__' ) ) {
+		$id  = (int) get_option( 'site_icon' );
+		$svg = str_replace( '__LOGO__', esc_url( $id ? (string) wp_get_attachment_image_url( $id, 'thumbnail' ) : '' ), $svg );
+	}
+	return '<figure class="sk-clen-obr sk-obr sk-obr--' . esc_attr( $name ) . '">' . $svg . '</figure>';
 } );
