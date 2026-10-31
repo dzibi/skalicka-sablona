@@ -1,5 +1,5 @@
 {
-  "version": "1.9.13",
-  "zip": "dist/skalicka-sablona-1.9.13.zip",
-  "notes": "Odkazy mimo web v nové záložce (bez skrývání odkud návštěvník přišel)"
+  "version": "1.9.14",
+  "zip": "dist/skalicka-sablona-1.9.14.zip",
+  "notes": "Nové záložky jen pro odkazy na webu, ne v liště administrace"
 }
