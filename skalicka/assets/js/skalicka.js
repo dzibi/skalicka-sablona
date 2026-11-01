@@ -66,7 +66,7 @@
 			}
 			if (start >= h[1]) { continue; }
 			var when = i === 1 ? 'zítra' : DAYS_ACC[wd];
-			return { atSec: (i * 1440 + start) * 60, text: 'Otevíráme ' + when + ' v ' + fmt(start), short: when + ' od\u00a0' + fmt(start) };
+			return { atSec: (i * 1440 + start) * 60, text: 'Otevíráme ' + when + ' v ' + fmt(start), short: when + ' v\u00a0' + fmt(start) };
 		}
 		return null;
 	}
@@ -89,7 +89,7 @@
 		var hours = parseRange((c.hours || {})[now.wd]);
 		var next = nextOpening(c, now, sameDay);
 		var toOpen = function (s, title, sub) {
-			return { s: s, title: title, sub: sub || (next ? next.text : ''), t: title + (next ? ' · ' + next.short : ''), target: next ? next.atSec : null, lbl: 'do otevření' };
+			return { s: s, title: title, sub: sub || (next ? next.text : ''), t: next ? 'Otevíráme ' + next.short : title, target: next ? next.atSec : null, lbl: 'do otevření' };
 		};
 
 		if (sameDay && c.manual) {
@@ -106,12 +106,12 @@
 			if (cl.from <= open && cl.to >= close) {
 				var rc = toOpen('zavreno', 'Dnes zavřeno');
 				rc.sub = cl.label + (next ? ' · ' + next.text.toLowerCase() : '');
-				rc.t = 'Dnes zavřeno' + (next ? ' · ' + next.short : '');
+				rc.t = 'Dnes zavřeno';
 				return rc;
 			}
 			if (m >= cl.from && m < cl.to) {
 				if (cl.to < close) {
-					return { s: 'zavreno', title: 'Zavřeno', sub: cl.label + ' · otevíráme v ' + fmt(cl.to), t: 'Zavřeno · do\u00a0' + fmt(cl.to), target: cl.to * 60, lbl: 'do otevření' };
+					return { s: 'zavreno', title: 'Zavřeno', sub: cl.label + ' · otevíráme v ' + fmt(cl.to), t: 'Otevíráme v\u00a0' + fmt(cl.to), target: cl.to * 60, lbl: 'do otevření' };
 				}
 				var rl = toOpen('zavreno', 'Zavřeno');
 				rl.sub = cl.label + (next ? ' · ' + next.text.toLowerCase() : '');
@@ -121,7 +121,7 @@
 		if (m < open) {
 			var s = open - m <= soon ? 'brzy' : 'zavreno';
 			var title = s === 'brzy' ? 'Brzy otevíráme' : 'Zavřeno';
-			return { s: s, title: title, sub: 'Otevíráme dnes v ' + fmt(open), t: s === 'brzy' ? 'Otevíráme v\u00a0' + fmt(open) : 'Zavřeno · dnes od\u00a0' + fmt(open), target: open * 60, lbl: 'do otevření' };
+			return { s: s, title: title, sub: 'Otevíráme dnes v ' + fmt(open), t: s === 'brzy' ? 'Otevíráme v\u00a0' + fmt(open) : 'Otevíráme dnes v\u00a0' + fmt(open), target: open * 60, lbl: 'do otevření' };
 		}
 		if (m >= close) { return toOpen('zavreno', 'Zavřeno'); }
 
