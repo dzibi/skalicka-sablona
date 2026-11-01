@@ -1,5 +1,5 @@
 {
-  "version": "1.10.20",
-  "zip": "dist/skalicka-sablona-1.10.20.zip",
-  "notes": "Semafor v hlavičce na mobilu na dva řádky místo useknutí"
+  "version": "1.10.21",
+  "zip": "dist/skalicka-sablona-1.10.21.zip",
+  "notes": "Semafor: čas se neodtrhne od předložky"
 }
