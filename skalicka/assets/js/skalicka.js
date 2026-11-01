@@ -106,12 +106,12 @@
 			if (cl.from <= open && cl.to >= close) {
 				var rc = toOpen('zavreno', 'Dnes zavřeno');
 				rc.sub = cl.label + (next ? ' · ' + next.text.toLowerCase() : '');
-				rc.t = 'Dnes zavřeno · ' + cl.label;
+				rc.t = 'Dnes zavřeno' + (next ? ' · ' + next.short : '');
 				return rc;
 			}
 			if (m >= cl.from && m < cl.to) {
 				if (cl.to < close) {
-					return { s: 'zavreno', title: 'Zavřeno', sub: cl.label + ' · otevíráme v ' + fmt(cl.to), t: 'Zavřeno · ' + cl.label + ' · otevíráme v ' + fmt(cl.to), target: cl.to * 60, lbl: 'do otevření' };
+					return { s: 'zavreno', title: 'Zavřeno', sub: cl.label + ' · otevíráme v ' + fmt(cl.to), t: 'Zavřeno · do ' + fmt(cl.to), target: cl.to * 60, lbl: 'do otevření' };
 				}
 				var rl = toOpen('zavreno', 'Zavřeno');
 				rl.sub = cl.label + (next ? ' · ' + next.text.toLowerCase() : '');
@@ -121,7 +121,7 @@
 		if (m < open) {
 			var s = open - m <= soon ? 'brzy' : 'zavreno';
 			var title = s === 'brzy' ? 'Brzy otevíráme' : 'Zavřeno';
-			return { s: s, title: title, sub: 'Otevíráme dnes v ' + fmt(open), t: title + ' · otevíráme v ' + fmt(open), target: open * 60, lbl: 'do otevření' };
+			return { s: s, title: title, sub: 'Otevíráme dnes v ' + fmt(open), t: s === 'brzy' ? 'Otevíráme v ' + fmt(open) : 'Zavřeno · dnes od ' + fmt(open), target: open * 60, lbl: 'do otevření' };
 		}
 		if (m >= close) { return toOpen('zavreno', 'Zavřeno'); }
 
@@ -130,7 +130,7 @@
 			if (closures[j].from > m && closures[j].from < until) { until = closures[j].from; why = closures[j].label; }
 		}
 		if (until - m <= soon) {
-			return { s: 'brzy', title: 'Brzy zavíráme', sub: 'Zavíráme v ' + fmt(until) + (why ? ' · pak ' + why : ''), t: 'Brzy zavíráme · v ' + fmt(until), target: until * 60, lbl: 'do zavření' };
+			return { s: 'brzy', title: 'Brzy zavíráme', sub: 'Zavíráme v ' + fmt(until) + (why ? ' · pak ' + why : ''), t: 'Zavíráme v ' + fmt(until), target: until * 60, lbl: 'do zavření' };
 		}
 		return { s: 'otevreno', title: 'Otevřeno', sub: 'Dnes do ' + fmt(until) + (why ? ' · pak ' + why : ''), t: 'Otevřeno do ' + fmt(until), target: until * 60, lbl: 'do zavření' };
 	}
