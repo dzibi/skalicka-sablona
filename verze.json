@@ -1,5 +1,5 @@
 {
-  "version": "1.10.18",
-  "zip": "dist/skalicka-sablona-1.10.18.zip",
-  "notes": "Zdarma v krocích cesty nezalamuje řádky"
+  "version": "1.10.19",
+  "zip": "dist/skalicka-sablona-1.10.19.zip",
+  "notes": "Krátké texty semaforu v hlavičce pro všechny stavy"
 }
