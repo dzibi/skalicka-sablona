@@ -1,5 +1,5 @@
 {
-  "version": "1.10.23",
-  "zip": "dist/skalicka-sablona-1.10.23.zip",
-  "notes": "Jednorázový přesun složky webu pro přepnutí na svetskalicka.cz"
+  "version": "1.10.24",
+  "zip": "dist/skalicka-sablona-1.10.24.zip",
+  "notes": "Odstraněn jednorázový přesun složky po přepnutí na svetskalicka.cz"
 }
