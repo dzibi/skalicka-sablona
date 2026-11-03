@@ -32,9 +32,10 @@ function skalicka_sem_dnes() {
 		}
 		$poh   = in_array( SKALICKA_CAT_POHYBOVKY, $e['cats'], true );
 		$url   = $poh ? skalicka_link( 'pohybovky' ) : get_permalink( $e['id'] );
+		$mim   = in_array( SKALICKA_CAT_MIMORADNE, $e['cats'], true );
 		$time  = $e['allday'] ? 'celý den ' : skalicka_time( $e['start'] ) . ' ';
 		$live  = skalicka_live( $e, $now );
-		$out[] = '<a class="sk-sem-akce' . ( $poh ? ' is-pohybovky is-rez' : '' ) . $live[1] . '" href="' . esc_url( $url ) . '"' . $live[0] . '>'
+		$out[] = '<a class="sk-sem-akce' . ( $poh ? ' is-pohybovky is-rez' : '' ) . ( $mim ? ' is-mimoradne' : '' ) . $live[1] . '" href="' . esc_url( $url ) . '"' . $live[0] . '>'
 			. '<span class="sk-sem-tag"><span class="sk-jen-pred">Dnes</span><span class="sk-jen-ted">Teď</span></span>'
 			. '<span class="sk-sem-akce-txt"><span class="sk-jen-pred">' . esc_html( $time ) . '</span>' . esc_html( $e['title'] )
 			. ( $e['allday'] ? '' : '<span class="sk-jen-ted"> · probíhá do&nbsp;' . esc_html( skalicka_time( $e['end'] ) ) . '</span>' )
@@ -90,7 +91,8 @@ function skalicka_day_pills( DateTimeImmutable $day, $is_today ) {
 				. '<span class="sk-jen-ted"><b>Teď probíhá:</b> ' . esc_html( $e['title'] ) . ', do&nbsp;' . esc_html( skalicka_time( $e['end'] ) ) . '</span></span>';
 		} else {
 			$live    = skalicka_live( $e, $now );
-			$items[] = '<span class="sk-pill sk-pill--akce' . $live[1] . '"' . $live[0] . '><a href="' . esc_url( get_permalink( $e['id'] ) ) . '">'
+			$mim     = in_array( SKALICKA_CAT_MIMORADNE, $e['cats'], true );
+			$items[] = '<span class="sk-pill sk-pill--akce' . ( $mim ? ' sk-pill--mimoradne' : '' ) . $live[1] . '"' . $live[0] . '><a href="' . esc_url( get_permalink( $e['id'] ) ) . '">'
 				. '<span class="sk-jen-pred">' . esc_html( $time . $e['title'] ) . '</span>'
 				. '<span class="sk-jen-ted"><b>Teď probíhá:</b> ' . esc_html( $e['title'] ) . ', do&nbsp;' . esc_html( skalicka_time( $e['end'] ) ) . '</span></a></span>';
 		}
@@ -144,6 +146,9 @@ add_shortcode( 'skalicka_tyden', function () {
 				$is_closed = in_array( SKALICKA_CAT_CLOSED, $e['cats'], true );
 				$is_poh    = in_array( SKALICKA_CAT_POHYBOVKY, $e['cats'], true );
 				$cls       = $is_closed ? 'is-zavreno' : ( $is_poh ? 'is-pohybovky' : 'is-akce' );
+				if ( ! $is_closed && in_array( SKALICKA_CAT_MIMORADNE, $e['cats'], true ) ) {
+					$cls = 'is-akce is-mimoradne';
+				}
 				$is_today  = $e['start']->format( 'Y-m-d' ) === $now->format( 'Y-m-d' );
 				$time      = $e['allday'] ? 'celý den' : skalicka_time( $e['start'] ) . '–' . skalicka_time( $e['end'] );
 				$live      = skalicka_live( $e, $now );

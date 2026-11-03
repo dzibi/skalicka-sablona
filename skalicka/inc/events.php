@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** Kategorie kalendáře, se kterými šablona počítá (adresa kategorie). */
 const SKALICKA_CAT_CLOSED    = 'zavreno';
 const SKALICKA_CAT_POHYBOVKY = 'pohybovky';
+const SKALICKA_CAT_MIMORADNE = 'mimoradne'; // oranžově: mimořádná událost, máme otevřeno
 
 function skalicka_events_available() {
 	return post_type_exists( 'tribe_events' );
