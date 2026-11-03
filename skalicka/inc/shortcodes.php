@@ -93,8 +93,8 @@ function skalicka_day_pills( DateTimeImmutable $day, $is_today ) {
 			$live    = skalicka_live( $e, $now );
 			$mim     = in_array( SKALICKA_CAT_MIMORADNE, $e['cats'], true );
 			$items[] = '<span class="sk-pill sk-pill--akce' . ( $mim ? ' sk-pill--mimoradne' : '' ) . $live[1] . '"' . $live[0] . '><a href="' . esc_url( get_permalink( $e['id'] ) ) . '">'
-				. '<span class="sk-jen-pred">' . esc_html( $time . $e['title'] ) . '</span>'
-				. '<span class="sk-jen-ted"><b>Teď probíhá:</b> ' . esc_html( $e['title'] ) . ', do&nbsp;' . esc_html( skalicka_time( $e['end'] ) ) . '</span></a></span>';
+				. ( $e['allday'] ? esc_html( $e['title'] ) : '<span class="sk-jen-pred">' . esc_html( $time . $e['title'] ) . '</span>'
+				. '<span class="sk-jen-ted"><b>Teď probíhá:</b> ' . esc_html( $e['title'] ) . ', do&nbsp;' . esc_html( skalicka_time( $e['end'] ) ) . '</span>' ) . '</a></span>';
 		}
 	}
 	if ( ! $closed ) {
