@@ -93,11 +93,13 @@ function skalicka_seo_image() {
 			return array( $src[0], $src[1], $src[2] );
 		}
 	}
-	$id = (int) get_option( 'skalicka_og_image_id' );
+	$id = (int) get_option( 'skalicka_og_image_id_v2' );
 	if ( ! $id ) {
-		$found = get_posts( array( 'post_type' => 'attachment', 'name' => 'skalicka-sdileni', 'numberposts' => 1, 'fields' => 'ids' ) );
+		$found = get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'name' => 'skalicka-sdileni', 'numberposts' => 1, 'fields' => 'ids' ) );
 		$id    = $found ? (int) $found[0] : 0;
-		update_option( 'skalicka_og_image_id', $id ? $id : -1, true );
+		if ( $id ) {
+			update_option( 'skalicka_og_image_id_v2', $id, true );
+		}
 	}
 	if ( $id > 0 ) {
 		$src = wp_get_attachment_image_src( $id, 'full' );
