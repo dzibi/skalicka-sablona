@@ -14,7 +14,7 @@ function skalicka_weather_update( $past_days = 7 ) {
 	$url = add_query_arg( array(
 		'latitude'      => '49.69',
 		'longitude'     => '14.01',
-		'daily'         => 'temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code',
+		'daily'         => 'temperature_2m_max,temperature_2m_min,temperature_2m_mean,precipitation_sum,weather_code',
 		'timezone'      => 'Europe/Prague',
 		'past_days'     => (int) $past_days,
 		'forecast_days' => 1,
@@ -36,6 +36,7 @@ function skalicka_weather_update( $past_days = 7 ) {
 		$w[ $d ] = array(
 			'max'  => isset( $j['daily']['temperature_2m_max'][ $i ] ) ? round( (float) $j['daily']['temperature_2m_max'][ $i ] ) : null,
 			'min'  => isset( $j['daily']['temperature_2m_min'][ $i ] ) ? round( (float) $j['daily']['temperature_2m_min'][ $i ] ) : null,
+			'avg'  => isset( $j['daily']['temperature_2m_mean'][ $i ] ) ? round( (float) $j['daily']['temperature_2m_mean'][ $i ] ) : null,
 			'sraz' => isset( $j['daily']['precipitation_sum'][ $i ] ) ? round( (float) $j['daily']['precipitation_sum'][ $i ], 1 ) : null,
 			'kod'  => isset( $j['daily']['weather_code'][ $i ] ) ? (int) $j['daily']['weather_code'][ $i ] : null,
 		);
@@ -86,8 +87,11 @@ function skalicka_weather_text( $ymd ) {
 	}
 	$d   = $w[ $ymd ];
 	$txt = skalicka_weather_word( $d['kod'] );
-	if ( null !== $d['max'] ) {
-		$txt .= ( $txt ? ', ' : '' ) . $d['max'] . ' °C';
+	if ( null !== $d['max'] && null !== $d['min'] ) {
+		$txt .= ( $txt ? ', ' : '' ) . $d['min'] . ' až ' . $d['max'] . ' °C';
+		if ( isset( $d['avg'] ) && null !== $d['avg'] ) {
+			$txt .= ' (průměr ' . $d['avg'] . ' °C)';
+		}
 	}
 	if ( $d['sraz'] && $d['sraz'] >= 0.5 ) {
 		$txt .= ', ' . str_replace( '.', ',', (string) $d['sraz'] ) . ' mm';
@@ -282,9 +286,11 @@ function skalicka_report_html( $title, array $r, array $prev = null ) {
 
 function skalicka_report_csv( array $r ) {
 	$cz  = skalicka_dny_cz();
-	$csv = "\xEF\xBB\xBF" . "datum;den;zobrazeni;pocasi;svatek_prazdniny;klik_clenstvi;nakup_clenstvi;klik_rezervace\n";
+	$w   = (array) get_option( 'skalicka_pocasi', array() );
+	$csv = "\xEF\xBB\xBF" . "datum;den;zobrazeni;teplota_min;teplota_max;teplota_prumer;srazky_mm;pocasi;svatek_prazdniny;klik_clenstvi;nakup_clenstvi;klik_rezervace\n";
 	foreach ( $r['days'] as $ymd => $d ) {
-		$csv .= implode( ';', array( $ymd, $cz[ $d['wd'] ], $d['pv'], $d['pocasi'], $d['pozn'], $d['clenstvi'], $d['nakup'], $d['rezervace'] ) ) . "\n";
+		$x    = $w[ $ymd ] ?? array();
+		$csv .= implode( ';', array( $ymd, $cz[ $d['wd'] ], $d['pv'], $x['min'] ?? '', $x['max'] ?? '', $x['avg'] ?? '', isset( $x['sraz'] ) ? str_replace( '.', ',', (string) $x['sraz'] ) : '', skalicka_weather_word( $x['kod'] ?? null ), $d['pozn'], $d['clenstvi'], $d['nakup'], $d['rezervace'] ) ) . "\n";
 	}
 	return $csv;
 }
@@ -452,6 +458,10 @@ add_action( 'skalicka_stats_extra', function ( $data, $month ) {
 
 /* Jednorázově: odstranit testovací záznamy z ověření měření (5. 11. 2026). */
 add_action( 'admin_init', function () {
+	if ( ! get_option( 'skalicka_pocasi_v2' ) ) {
+		skalicka_weather_update( 14 );
+		update_option( 'skalicka_pocasi_v2', 1, false );
+	}
 	if ( get_option( 'skalicka_cleanup_test_1' ) ) {
 		return;
 	}
