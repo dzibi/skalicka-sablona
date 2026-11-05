@@ -1,5 +1,5 @@
 {
-  "version": "1.10.32",
-  "zip": "dist/skalicka-sablona-1.10.32.zip",
-  "notes": "Úklid testovacích dat ve statistice"
+  "version": "1.10.33",
+  "zip": "dist/skalicka-sablona-1.10.33.zip",
+  "notes": "Počasí z Příbrami: minimum, maximum a denní průměr"
 }
