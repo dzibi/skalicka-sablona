@@ -251,3 +251,17 @@ add_filter( 'rest_endpoints', function ( $endpoints ) {
 	}
 	return $endpoints;
 } );
+
+/* Ověřovací soubory Google Search Console (např. /google73ccff80234c18c5.html). */
+function skalicka_google_verify_files() {
+	return array( 'google73ccff80234c18c5.html' );
+}
+add_action( 'parse_request', function () {
+	$path = trim( (string) wp_parse_url( $_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH ), '/' );
+	if ( in_array( $path, skalicka_google_verify_files(), true ) ) {
+		status_header( 200 );
+		header( 'Content-Type: text/html; charset=UTF-8' );
+		echo 'google-site-verification: ' . esc_html( $path );
+		exit;
+	}
+}, 0 );
