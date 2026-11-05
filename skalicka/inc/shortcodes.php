@@ -36,7 +36,7 @@ function skalicka_sem_dnes() {
 		$time  = $e['allday'] ? 'celý den ' : skalicka_time( $e['start'] ) . ' ';
 		$live  = skalicka_live( $e, $now );
 		$out[] = '<a class="sk-sem-akce' . ( $poh ? ' is-pohybovky is-rez' : '' ) . ( $mim ? ' is-mimoradne' : '' ) . $live[1] . '" href="' . esc_url( $url ) . '"' . $live[0] . '>'
-			. '<span class="sk-sem-tag"><span class="sk-jen-pred">Dnes</span><span class="sk-jen-ted">Teď</span></span>'
+			. ( $e['allday'] ? '<span class="sk-sem-tag">Dnes</span>' : '<span class="sk-sem-tag"><span class="sk-jen-pred">Dnes</span><span class="sk-jen-ted">Teď</span></span>' )
 			. '<span class="sk-sem-akce-txt"><span class="sk-jen-pred">' . esc_html( $time ) . '</span>' . esc_html( $e['title'] )
 			. ( $e['allday'] ? '' : '<span class="sk-jen-ted"> · probíhá do&nbsp;' . esc_html( skalicka_time( $e['end'] ) ) . '</span>' )
 			. '</span></a>';
