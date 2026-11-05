@@ -1,5 +1,5 @@
 {
-  "version": "1.10.27",
-  "zip": "dist/skalicka-sablona-1.10.27.zip",
-  "notes": "Formulář Přidat do kalendáře, jednodušší editor akcí, oprava Teď u celodenních akcí v semaforu"
+  "version": "1.10.28",
+  "zip": "dist/skalicka-sablona-1.10.28.zip",
+  "notes": "Formulář kalendáře: data se vejdou na mobil"
 }
