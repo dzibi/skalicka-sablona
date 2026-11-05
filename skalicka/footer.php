@@ -16,6 +16,7 @@
 			<div>
 				<h2>Kontakt</h2>
 				<ul>
+					<li><a href="<?php echo esc_url( skalicka_page_url( 'kontakt' ) . '#napiste-nam' ); ?>">Napište nám</a></li>
 					<?php if ( skalicka_opt( 'phone' ) ) : ?>
 						<li><a href="<?php echo esc_url( skalicka_link( 'telefon' ) ); ?>"><?php echo esc_html( skalicka_opt( 'phone' ) ); ?></a></li>
 					<?php endif; ?>

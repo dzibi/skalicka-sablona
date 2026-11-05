@@ -3,7 +3,7 @@ Theme Name: Skalička
 Theme URI: https://svetskalicka.cz
 Author: Kapilsons s.r.o.
 Description: Šablona pro Dětský svět Skalička – herna s kavárnou v OC Skalka, Příbram. Semafor otevírací doby, napojení na kalendář akcí, členství a rezervace.
-Version: 1.10.28
+Version: 1.10.29
 Requires at least: 6.5
 Requires PHP: 8.1
 License: GNU General Public License v2 or later
@@ -727,3 +727,19 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-pband-in a.sk-btn,.sk-page a.sk-btn{margin:0 10px 10px 0}
 .sk-steps li strong.sk-zdarma,li strong.sk-zdarma,p strong.sk-zdarma{display:inline!important;margin:0!important;font-size:inherit!important}
 @media (max-width:480px){body:not(.home) .sk-header .sk-semafor-text{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}body:not(.home) .sk-header .sk-semafor{border-radius:22px;padding:6px 12px}}
+
+/* Kontaktní formulář [skalicka_formular] */
+.sk-form-wrap{background:#FFF8F2;border-radius:24px;padding:24px 22px;margin:1.6em 0;scroll-margin-top:90px}
+.sk-form-wrap h2{margin-top:0}
+.sk-form label{display:block;font-weight:800;margin:0 0 6px}
+.sk-form label small{font-weight:700;opacity:.75}
+.sk-form input[type=text],.sk-form input[type=email],.sk-form input[type=tel],.sk-form select,.sk-form textarea{width:100%;box-sizing:border-box;font:inherit;font-size:17px;padding:12px 14px;border:2px solid var(--sk-choco);border-radius:14px;background:#fff;color:var(--sk-choco)}
+.sk-form textarea{min-height:140px;resize:vertical}
+.sk-form input:focus,.sk-form select:focus,.sk-form textarea:focus{outline:3px solid var(--sk-yellow);outline-offset:1px}
+.sk-form p{margin:0 0 14px}
+.sk-form-row{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+@media (max-width:640px){.sk-form-row{grid-template-columns:1fr}}
+.sk-form-hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+.sk-form-note{font-size:14px;opacity:.85}
+.sk-form-ok,.sk-form-err{border-radius:14px;padding:14px 16px;font-weight:800}
+.sk-form-ok{background:#DDF2D4}.sk-form-err{background:#FBE1DC}

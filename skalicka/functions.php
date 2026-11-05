@@ -7,11 +7,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SKALICKA_VERSION', '1.10.28' );
+define( 'SKALICKA_VERSION', '1.10.29' );
 
 require_once __DIR__ . '/inc/settings.php';
 require_once __DIR__ . '/inc/events.php';
 require_once __DIR__ . '/inc/rychla-akce.php';
+require_once __DIR__ . '/inc/kontakt-form.php';
 require_once __DIR__ . '/inc/shortcodes.php';
 require_once __DIR__ . '/inc/import.php';
 require_once __DIR__ . '/inc/kroky.php';
