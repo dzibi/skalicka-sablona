@@ -1,5 +1,5 @@
 {
-  "version": "1.10.26",
-  "zip": "dist/skalicka-sablona-1.10.26.zip",
-  "notes": "Celodenní akce bez textu Teď probíhá"
+  "version": "1.10.27",
+  "zip": "dist/skalicka-sablona-1.10.27.zip",
+  "notes": "Formulář Přidat do kalendáře, jednodušší editor akcí, oprava Teď u celodenních akcí v semaforu"
 }
