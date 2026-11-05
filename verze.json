@@ -1,5 +1,5 @@
 {
-  "version": "1.10.36",
-  "zip": "dist/skalicka-sablona-1.10.36.zip",
-  "notes": "Search Console: ověřovací soubor"
+  "version": "1.10.37",
+  "zip": "dist/skalicka-sablona-1.10.37.zip",
+  "notes": "Zabezpečení: hlavičky, vypnuté XML-RPC, zákaz editoru kódu"
 }
