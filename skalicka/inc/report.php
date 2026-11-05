@@ -449,3 +449,26 @@ add_action( 'skalicka_stats_extra', function ( $data, $month ) {
 	wp_nonce_field( 'skalicka_report_nahled' );
 	echo '<button class="button button-primary">Poslat ukázku reportu teď</button></form>';
 }, 10, 2 );
+
+/* Jednorázově: odstranit testovací záznamy z ověření měření (5. 11. 2026). */
+add_action( 'admin_init', function () {
+	if ( get_option( 'skalicka_cleanup_test_1' ) ) {
+		return;
+	}
+	$opt  = 'skalicka_stats_2026_11';
+	$data = get_option( $opt, array() );
+	if ( is_array( $data ) ) {
+		foreach ( $data as $bucket => $rows ) {
+			if ( ! is_array( $rows ) ) {
+				continue;
+			}
+			foreach ( array_keys( $rows ) as $k ) {
+				if ( false !== strpos( (string) $k, '/test-mereni/' ) ) {
+					unset( $data[ $bucket ][ $k ] );
+				}
+			}
+		}
+		update_option( $opt, $data, false );
+	}
+	update_option( 'skalicka_cleanup_test_1', 1, false );
+} );
