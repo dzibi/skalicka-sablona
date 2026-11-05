@@ -124,6 +124,27 @@ function skalicka_stats_page() {
 		<p><a href="<?php echo esc_url( admin_url( 'index.php?page=skalicka-stats&m=' . $prev ) ); ?>">← předchozí měsíc</a> · <a href="<?php echo esc_url( admin_url( 'index.php?page=skalicka-stats&m=' . $next ) ); ?>">další měsíc →</a></p>
 		<p>Počítá se bez cookies a bez osobních údajů, takže jde o všechny návštěvy (kromě robotů a vás přihlášených). Podrobnosti o lidech (věk, zájmy, cesta webem) najdete v Google Analytics a Clarity – ty ale vidí jen ty, kdo souhlasili s cookies.</p>
 		<p style="font-size:18px">Zobrazení stránek celkem: <strong><?php echo (int) array_sum( $days ); ?></strong></p>
+		<?php
+		$pg    = isset( $data['pages'] ) ? $data['pages'] : array();
+		$cl    = isset( $data['clicks'] ) ? $data['clicks'] : array();
+		$f_v   = (int) ( $pg['/clenstvi/'] ?? 0 );
+		$f_c   = (int) ( $cl['clenstvi_nakup'] ?? 0 );
+		$f_d   = (int) ( $pg['/clenstvi/dekujeme/'] ?? 0 );
+		$f_n   = max( 0, $f_c - $f_d );
+		$boxes = array(
+			array( 'Otevřeli stránku Členství', $f_v, '#A3CBD6' ),
+			array( 'Klikli na „Stát se členem“', $f_c, '#FECC06' ),
+			array( 'Dokončili nákup', $f_d, '#9BD58A' ),
+			array( 'Nedokončili (klikli, nezaplatili)', $f_n, '#FBE1DC' ),
+		);
+		?>
+		<h2>Trychtýř členství</h2>
+		<div style="display:flex;flex-wrap:wrap;gap:10px;max-width:720px">
+			<?php foreach ( $boxes as $b ) : ?>
+				<div style="flex:1 1 150px;background:<?php echo esc_attr( $b[2] ); ?>;border-radius:12px;padding:12px 14px"><div style="font-size:26px;font-weight:700"><?php echo (int) $b[1]; ?></div><div><?php echo esc_html( $b[0] ); ?></div></div>
+			<?php endforeach; ?>
+		</div>
+		<p style="max-width:720px;color:#646970">Dokončený nákup = návštěva děkovací stránky, kam Stripe přesměruje po zaplacení. Přesná čísla plateb jsou ve Stripu.</p>
 		<?php if ( $days ) : ?>
 			<h2>Po dnech</h2>
 			<div style="display:flex;align-items:flex-end;gap:3px;height:140px;max-width:720px;border-bottom:1px solid #ccc">
@@ -169,3 +190,12 @@ add_action( 'wp_head', function () {
 		echo '<meta name="google-site-verification" content="' . esc_attr( $v ) . '">' . "\n";
 	}
 }, 2 );
+
+/* Děkovací stránka po nákupu členství se nemá objevit ve vyhledávačích. */
+add_filter( 'wp_robots', function ( $robots ) {
+	if ( is_page() && 'dekujeme' === get_post_field( 'post_name', get_queried_object_id() ) ) {
+		$robots['noindex']  = true;
+		$robots['nofollow'] = true;
+	}
+	return $robots;
+} );
