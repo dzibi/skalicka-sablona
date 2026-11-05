@@ -130,7 +130,7 @@ function skalicka_rychla_page() {
 	.skr label.b{display:block;font-weight:600;margin:14px 0 6px}
 	.skr input[type=text],.skr input[type=date],.skr input[type=time],.skr textarea{width:100%;font-size:17px;padding:10px 12px;border-radius:8px;min-height:46px}
 	.skr textarea{min-height:110px}
-	.skr .row{display:flex;gap:12px}.skr .row>div{flex:1}
+	.skr .row{display:flex;gap:12px}.skr .row>div{flex:1;min-width:0}.skr input,.skr textarea{box-sizing:border-box;max-width:100%}
 	.skr .typ{display:grid;gap:8px}
 	.skr .typ label{display:flex;gap:10px;align-items:flex-start;border:2px solid #dcdcde;border-radius:10px;padding:10px 12px;cursor:pointer}
 	.skr .typ input{margin-top:3px}
