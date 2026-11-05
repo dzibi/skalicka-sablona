@@ -1,5 +1,5 @@
 {
-  "version": "1.10.30",
-  "zip": "dist/skalicka-sablona-1.10.30.zip",
-  "notes": "Trychtýř členství ve statistice, děkovací stránka mimo vyhledávače"
+  "version": "1.10.31",
+  "zip": "dist/skalicka-sablona-1.10.31.zip",
+  "notes": "Statistika: čas na stránce, dočtení, všechny kliky, hodiny, kampaně, počasí a svátky; týdenní a měsíční report e-mailem"
 }
