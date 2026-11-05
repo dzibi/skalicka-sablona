@@ -32,6 +32,7 @@ function skalicka_defaults() {
 		'pixel_id'          => '',
 		'clarity_id'        => '',
 		'gsc_verify'        => '',
+		'report_email'      => 'info@svetskalicka.cz',
 		'kroky_vstupy'      => '12970',
 		'kroky_datum'       => '2026-10-30',
 		'kroky_denne'       => '14.5',
@@ -146,7 +147,7 @@ function skalicka_sanitize( $in ) {
 			$out[ $k ] = $num >= 0 ? (string) $num : $d[ $k ];
 		} elseif ( 'address' === $k ) {
 			$out[ $k ] = sanitize_textarea_field( $val );
-		} elseif ( 'email' === $k ) {
+		} elseif ( 'email' === $k || 'report_email' === $k ) {
 			$out[ $k ] = sanitize_email( $val );
 		} elseif ( false !== strpos( $k, 'url' ) ) {
 			$out[ $k ] = esc_url_raw( trim( (string) $val ) );
@@ -175,6 +176,7 @@ function skalicka_settings_page() {
 		'pixel_id'          => array( 'Meta Pixel: ID', 'Jen číslice. Načte se až po souhlasu s marketingovými cookies.' ),
 		'clarity_id'        => array( 'Microsoft Clarity: ID projektu', 'Heatmapy a záznamy pohybu po webu. Načte se až po souhlasu.' ),
 		'gsc_verify'        => array( 'Google Search Console: ověřovací kód', 'Jen hodnota content z meta značky google-site-verification.' ),
+		'report_email'      => array( 'E-mail pro report návštěvnosti', 'Každé pondělí ráno za minulý týden, prvního v měsíci za celý měsíc.' ),
 	);
 	?>
 	<div class="wrap">

@@ -47,6 +47,7 @@
 		/* eslint-enable */
 		window.fbq('init', T.pixel);
 		window.fbq('track', 'PageView');
+		if (/\/clenstvi\/dekujeme\/?$/.test(location.pathname)) { window.fbq('track', 'Purchase', { value: 549, currency: 'CZK' }); }
 	}
 	function apply(c) {
 		if (!c) { return; }
@@ -128,12 +129,46 @@
 				}
 			}
 		}
+		var any = e.target.closest ? e.target.closest('a[href],button') : null;
+		if (any && !any.closest('#sk-cookie')) {
+			var l = (any.getAttribute('aria-label') || any.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 50);
+			if (!l && any.getAttribute('href')) { l = any.getAttribute('href').slice(0, 50); }
+			if (l) { beacon({ t: 'ck', p: location.pathname, l: l }); }
+		}
 		var open = e.target.closest ? e.target.closest('[data-sk-cookies]') : null;
 		if (open) { e.preventDefault(); bar(true); }
 	});
 
+	function utm() {
+		try {
+			var q = new URLSearchParams(location.search), src = q.get('utm_source');
+			return src ? (src + ' / ' + (q.get('utm_campaign') || q.get('utm_medium') || '-')).slice(0, 80) : '';
+		} catch (e) { return ''; }
+	}
+
+	/* Čas, kdy je stránka opravdu vidět, a jak daleko ji člověk dočetl. Odesílá se jednou, při odchodu. */
+	var visMs = 0, visFrom = document.visibilityState === 'visible' ? Date.now() : 0, maxScroll = 0, tmSent = false;
+	function scrollPct() {
+		var h = document.documentElement, max = Math.max(1, h.scrollHeight - window.innerHeight);
+		return Math.min(100, Math.round((window.scrollY || h.scrollTop || 0) / max * 100));
+	}
+	function sendTime() {
+		if (visFrom) { visMs += Date.now() - visFrom; visFrom = 0; }
+		if (tmSent) { return; }
+		var sec = Math.round(visMs / 1000);
+		if (sec < 1) { return; }
+		tmSent = true;
+		if (document.documentElement.scrollHeight <= window.innerHeight + 50) { maxScroll = 100; }
+		beacon({ t: 'tm', p: location.pathname, s: Math.min(sec, 1800), d: maxScroll });
+	}
+	window.addEventListener('scroll', function () { var p = scrollPct(); if (p > maxScroll) { maxScroll = p; } }, { passive: true });
+	document.addEventListener('visibilitychange', function () {
+		if (document.visibilityState === 'visible') { visFrom = Date.now(); } else { sendTime(); }
+	});
+	window.addEventListener('pagehide', sendTime);
+
 	function start() {
-		beacon({ t: 'pv', p: location.pathname, r: document.referrer || '', m: window.matchMedia && window.matchMedia('(max-width: 760px)').matches ? 1 : 0 });
+		beacon({ t: 'pv', p: location.pathname, r: document.referrer || '', m: window.matchMedia && window.matchMedia('(max-width: 760px)').matches ? 1 : 0, u: utm() });
 		var c = readConsent();
 		if (c) { apply(c); }
 		else if (hasTools()) { bar(false); }

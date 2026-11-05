@@ -34,6 +34,29 @@ function skalicka_stats_add( $bucket, $key, $n = 1 ) {
 	update_option( $opt, $data, false );
 }
 
+/** Více přírůstků najednou (jedno čtení a zápis). $items = [[bucket, key, n], …] */
+function skalicka_stats_add_many( array $items ) {
+	$opt  = skalicka_stats_key();
+	$data = get_option( $opt, array() );
+	if ( ! is_array( $data ) ) {
+		$data = array();
+	}
+	foreach ( $items as $it ) {
+		list( $bucket, $key, $n ) = array_pad( $it, 3, 1 );
+		$key = substr( (string) $key, 0, 160 );
+		if ( ! isset( $data[ $bucket ] ) ) {
+			$data[ $bucket ] = array();
+		}
+		$data[ $bucket ][ $key ] = ( isset( $data[ $bucket ][ $key ] ) ? $data[ $bucket ][ $key ] : 0 ) + $n;
+	}
+	update_option( $opt, $data, false );
+}
+
+function skalicka_stats_path( $p ) {
+	$path = '/' . trim( (string) wp_parse_url( (string) $p, PHP_URL_PATH ), '/' );
+	return '/' === $path ? '/' : $path . '/';
+}
+
 /* Zobrazení stránky počítá skript přes sendBeacon (spolehlivě jen skutečné prohlížeče, bez cookies). */
 add_action( 'rest_api_init', function () {
 	register_rest_route( 'skalicka/v1', '/s', array(
@@ -48,22 +71,54 @@ add_action( 'rest_api_init', function () {
 				return new WP_REST_Response( null, 204 );
 			}
 			$type = isset( $body['t'] ) ? $body['t'] : '';
+			$day  = wp_date( 'Y-m-d' );
+			$add  = array();
 			if ( 'pv' === $type ) {
-				$path = isset( $body['p'] ) ? '/' . trim( wp_parse_url( (string) $body['p'], PHP_URL_PATH ), '/' ) : '/';
-				$path = '/' === $path ? '/' : $path . '/';
-				skalicka_stats_add( 'pages', $path );
-				skalicka_stats_add( 'days', wp_date( 'Y-m-d' ) );
-				$ref = isset( $body['r'] ) ? (string) wp_parse_url( (string) $body['r'], PHP_URL_HOST ) : '';
-				$own = (string) wp_parse_url( home_url(), PHP_URL_HOST );
+				$path  = skalicka_stats_path( isset( $body['p'] ) ? $body['p'] : '/' );
+				$add[] = array( 'pages', $path );
+				$add[] = array( 'days', $day );
+				$add[] = array( 'dp', $day . '|' . $path );
+				$add[] = array( 'dh', $day . '|' . wp_date( 'G' ) );
+				$ref   = isset( $body['r'] ) ? (string) wp_parse_url( (string) $body['r'], PHP_URL_HOST ) : '';
+				$own   = (string) wp_parse_url( home_url(), PHP_URL_HOST );
+				$src   = '';
 				if ( $ref && $ref !== $own ) {
-					skalicka_stats_add( 'refs', preg_replace( '/^(www\.|m\.|l\.|lm\.)/', '', $ref ) );
+					$src = preg_replace( '/^(www\.|m\.|l\.|lm\.)/', '', $ref );
 				} elseif ( ! $ref ) {
-					skalicka_stats_add( 'refs', '(přímo / aplikace)' );
+					$src = '(přímo / aplikace)';
 				}
-				$dev = isset( $body['m'] ) && $body['m'] ? 'mobil' : 'počítač';
-				skalicka_stats_add( 'devices', $dev );
+				if ( $src ) {
+					$add[] = array( 'refs', $src );
+					$add[] = array( 'dr', $day . '|' . $src );
+				}
+				$add[] = array( 'devices', isset( $body['m'] ) && $body['m'] ? 'mobil' : 'počítač' );
+				$u     = isset( $body['u'] ) ? sanitize_text_field( (string) $body['u'] ) : '';
+				if ( $u ) {
+					$add[] = array( 'utm', $u );
+					$add[] = array( 'du', $day . '|' . $u );
+				}
 			} elseif ( 'click' === $type && ! empty( $body['k'] ) ) {
-				skalicka_stats_add( 'clicks', sanitize_key( $body['k'] ) );
+				$k     = sanitize_key( $body['k'] );
+				$add[] = array( 'clicks', $k );
+				$add[] = array( 'dk', $day . '|' . $k );
+			} elseif ( 'tm' === $type && ! empty( $body['p'] ) ) {
+				$path  = skalicka_stats_path( $body['p'] );
+				$sec   = max( 1, min( 1800, (int) ( $body['s'] ?? 0 ) ) );
+				$dep   = max( 0, min( 100, (int) ( $body['d'] ?? 0 ) ) );
+				$add[] = array( 'tsum', $path, $sec );
+				$add[] = array( 'tcnt', $path );
+				if ( $dep >= 50 ) {
+					$add[] = array( 'scr50', $path );
+				}
+				if ( $dep >= 90 ) {
+					$add[] = array( 'scr90', $path );
+				}
+			} elseif ( 'ck' === $type && ! empty( $body['l'] ) ) {
+				$path  = skalicka_stats_path( isset( $body['p'] ) ? $body['p'] : '/' );
+				$add[] = array( 'clk', $path . ' › ' . sanitize_text_field( mb_substr( (string) $body['l'], 0, 50 ) ) );
+			}
+			if ( $add ) {
+				skalicka_stats_add_many( $add );
 			}
 			return new WP_REST_Response( null, 204 );
 		},
@@ -161,6 +216,7 @@ function skalicka_stats_page() {
 		skalicka_stats_table( 'Kliky na důležitá tlačítka', isset( $data['clicks'] ) ? $data['clicks'] : array(), skalicka_click_labels() );
 		skalicka_stats_table( 'Odkud lidé přišli', isset( $data['refs'] ) ? $data['refs'] : array() );
 		skalicka_stats_table( 'Zařízení', isset( $data['devices'] ) ? $data['devices'] : array() );
+		do_action( 'skalicka_stats_extra', $data, $month );
 		?>
 	</div>
 	<?php
