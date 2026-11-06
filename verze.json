@@ -1,5 +1,5 @@
 {
-  "version": "1.10.37",
-  "zip": "dist/skalicka-sablona-1.10.37.zip",
-  "notes": "Zabezpečení: hlavičky, vypnuté XML-RPC, zákaz editoru kódu"
+  "version": "1.10.38",
+  "zip": "dist/skalicka-sablona-1.10.38.zip",
+  "notes": "Podstránky: nadpis níž pod odkazem zpět"
 }
