@@ -14,7 +14,7 @@
 		try { return JSON.parse(decodeURIComponent(m[1])); } catch (e) { return null; }
 	}
 	function saveConsent(c) {
-		c.v = 1; c.d = new Date().toISOString().slice(0, 10);
+		c.v = 2; c.d = new Date().toISOString().slice(0, 10);
 		document.cookie = KEY + '=' + encodeURIComponent(JSON.stringify(c)) + '; max-age=' + MAX_AGE + '; path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : '');
 	}
 	function hasTools() { return !!(T.ga || T.pixel || T.clarity); }
@@ -170,7 +170,11 @@
 	function start() {
 		beacon({ t: 'pv', p: location.pathname, r: document.referrer || '', m: window.matchMedia && window.matchMedia('(max-width: 760px)').matches ? 1 : 0, u: utm() });
 		var c = readConsent();
-		if (c) { apply(c); }
+		if (c) {
+			apply(c);
+			// Souhlas z doby před Meta Pixelem (v1): zeptat se znovu, ať může souhlasit i s marketingem.
+			if (T.pixel && (c.v || 1) < 2) { bar(false); }
+		}
 		else if (hasTools()) { bar(false); }
 	}
 
