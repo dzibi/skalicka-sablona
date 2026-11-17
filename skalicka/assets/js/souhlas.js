@@ -104,7 +104,7 @@
 	function clickKind(a) {
 		var h = a.getAttribute('href') || '';
 		if (/reenio\./i.test(h)) { return /pohybovk/i.test(h) ? 'rezervace_pohybovky' : (/oslav|party|narozen/i.test(h) ? 'rezervace_oslavy' : 'rezervace_jine'); }
-		if (/buy\.stripe\.com/i.test(h)) { return 'clenstvi_nakup'; }
+		if (/buy\.stripe\.com|checkout\.stripe\.com|hook\.[a-z0-9]+\.make\.com/i.test(h) || (T.member && h.indexOf(T.member) === 0)) { return 'clenstvi_nakup'; }
 		if (/billing\.stripe\.com/i.test(h)) { return 'clenstvi_portal'; }
 		if (/^tel:/i.test(h)) { return 'telefon'; }
 		if (/^mailto:/i.test(h)) { return 'email'; }

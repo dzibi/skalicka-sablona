@@ -168,7 +168,7 @@ function skalicka_settings_page() {
 		'map_url'           => array( 'Odkaz na navigaci (Google Maps / Mapy.cz)', '' ),
 		'ig_url'            => array( 'Instagram', 'Celá adresa profilu' ),
 		'fb_url'            => array( 'Facebook', 'Celá adresa stránky' ),
-		'url_member'        => array( 'Stripe: nákup členství', 'Platební odkaz Stripe (buy.stripe.com/…)' ),
+		'url_member'        => array( 'Stripe: nákup členství', 'Nákupní odkaz členství (Make nebo buy.stripe.com/…)' ),
 		'url_portal'        => array( 'Stripe: zákaznický portál', 'Odkaz pro přihlášení do portálu (billing.stripe.com/p/login/…)' ),
 		'url_res_pohybovky' => array( 'Reenio: rezervace Pohybovek', '' ),
 		'url_res_oslavy'    => array( 'Reenio: rezervace oslav', '' ),

@@ -231,6 +231,7 @@ function skalicka_tracking_config() {
 		'clarity' => preg_match( '/^[a-z0-9]{6,20}$/', (string) skalicka_opt( 'clarity_id' ) ) ? skalicka_opt( 'clarity_id' ) : '',
 		'stats'   => esc_url_raw( rest_url( 'skalicka/v1/s' ) ),
 		'policy'  => skalicka_page_url( 'cookies' ),
+		'member'  => esc_url_raw( (string) skalicka_opt( 'url_member' ) ),
 	);
 }
 
