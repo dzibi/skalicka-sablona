@@ -1,5 +1,5 @@
 {
-  "version": "1.11.0",
-  "zip": "dist/skalicka-sablona-1.11.0.zip",
-  "notes": "Menu kavárny: položky v administraci, rychlá úprava cen, stránka /menu/"
+  "version": "1.11.1",
+  "zip": "dist/skalicka-sablona-1.11.1.zip",
+  "notes": "Měření kliku na nákup členství i přes nový odkaz (Make) – statistika webu a Meta Pixel"
 }
