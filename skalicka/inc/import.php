@@ -14,6 +14,8 @@ function skalicka_import_allowed_hosts() {
 		'svetskalicka.cz', 'www.svetskalicka.cz',
 		'd48-a.sdn.cz',
 		'lh3.googleusercontent.com', 'lh4.googleusercontent.com', 'lh5.googleusercontent.com', 'lh6.googleusercontent.com',
+		// Export z Canvy (fotky jídel bez pozadí pro menu).
+		'export-download.canva.com', 'document-export.canva.com',
 		wp_parse_url( home_url(), PHP_URL_HOST ),
 	);
 }
@@ -28,6 +30,8 @@ add_action( 'rest_api_init', function () {
 			'url'   => array( 'required' => true, 'type' => 'string' ),
 			'title' => array( 'required' => false, 'type' => 'string' ),
 			'alt'   => array( 'required' => false, 'type' => 'string' ),
+			'orez'  => array( 'required' => false, 'type' => 'boolean' ),
+			'nazev' => array( 'required' => false, 'type' => 'string' ),
 		),
 		'callback'            => function ( WP_REST_Request $req ) {
 			$url  = esc_url_raw( $req['url'] );
@@ -50,6 +54,25 @@ add_action( 'rest_api_init', function () {
 			) );
 			if ( $existing ) {
 				$id = (int) $existing[0];
+			} elseif ( $req['orez'] ) {
+				// PNG bez pozadí: oříznout průhledné okraje a vycentrovat do čtverce (jednotné fotky v menu).
+				$tmp = download_url( $url, 60 );
+				if ( is_wp_error( $tmp ) ) {
+					return $tmp;
+				}
+				if ( ! skalicka_import_trim_square( $tmp ) ) {
+					wp_delete_file( $tmp );
+					return new WP_Error( 'skalicka_trim', 'Obrázek se nepodařilo upravit (čeká se PNG s průhledným pozadím).', array( 'status' => 400 ) );
+				}
+				$name = sanitize_file_name( ( $req['nazev'] ? $req['nazev'] : 'menu-foto' ) . '.png' );
+				add_filter( 'image_editor_output_format', 'skalicka_import_webp_sizes' );
+				$id = media_handle_sideload( array( 'name' => $name, 'tmp_name' => $tmp ), 0, $req['title'] ? sanitize_text_field( $req['title'] ) : null );
+				remove_filter( 'image_editor_output_format', 'skalicka_import_webp_sizes' );
+				if ( is_wp_error( $id ) ) {
+					wp_delete_file( $tmp );
+					return $id;
+				}
+				update_post_meta( $id, '_skalicka_source', $url );
 			} else {
 				$fetch = $url;
 				if ( ! preg_match( '/\.(jpe?g|png|webp|gif)(\?.*)?$/i', $fetch ) ) {
@@ -72,3 +95,77 @@ add_action( 'rest_api_init', function () {
 		},
 	) );
 } );
+
+/** Menší velikosti fotek bez pozadí ukládat jako WebP (zachová průhlednost, je lehčí). */
+function skalicka_import_webp_sizes( $formats ) {
+	if ( wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
+		$formats['image/png'] = 'image/webp';
+	}
+	return $formats;
+}
+
+/**
+ * Ořízne průhledné okraje PNG, vycentruje motiv do průhledného čtverce s malým okrajem
+ * a uloží zpět jako PNG o straně $size px. Vrací true/false.
+ */
+function skalicka_import_trim_square( $path, $size = 900, $pad = 0.05 ) {
+	if ( ! function_exists( 'imagecreatefrompng' ) ) {
+		return false;
+	}
+	$info = @getimagesize( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
+	if ( ! $info || IMAGETYPE_PNG !== $info[2] ) {
+		return false;
+	}
+	$src = @imagecreatefrompng( $path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
+	if ( ! $src ) {
+		return false;
+	}
+	$w    = imagesx( $src );
+	$h    = imagesy( $src );
+	$minx = $w;
+	$miny = $h;
+	$maxx = -1;
+	$maxy = -1;
+	for ( $y = 0; $y < $h; $y += 2 ) {
+		for ( $x = 0; $x < $w; $x += 2 ) {
+			$a = ( imagecolorat( $src, $x, $y ) >> 24 ) & 0x7F;
+			if ( $a < 100 ) {
+				if ( $x < $minx ) {
+					$minx = $x;
+				}
+				if ( $x > $maxx ) {
+					$maxx = $x;
+				}
+				if ( $y < $miny ) {
+					$miny = $y;
+				}
+				if ( $y > $maxy ) {
+					$maxy = $y;
+				}
+			}
+		}
+	}
+	if ( $maxx < 0 ) {
+		imagedestroy( $src );
+		return false;
+	}
+	$minx = max( 0, $minx - 2 );
+	$miny = max( 0, $miny - 2 );
+	$maxx = min( $w - 1, $maxx + 2 );
+	$maxy = min( $h - 1, $maxy + 2 );
+	$bw   = $maxx - $minx + 1;
+	$bh   = $maxy - $miny + 1;
+	$side = max( $bw, $bh ) * ( 1 + 2 * $pad );
+	$k    = $size / $side;
+	$dst  = imagecreatetruecolor( $size, $size );
+	imagealphablending( $dst, false );
+	imagesavealpha( $dst, true );
+	imagefill( $dst, 0, 0, imagecolorallocatealpha( $dst, 255, 255, 255, 127 ) );
+	$dw = (int) round( $bw * $k );
+	$dh = (int) round( $bh * $k );
+	imagecopyresampled( $dst, $src, (int) round( ( $size - $dw ) / 2 ), (int) round( ( $size - $dh ) / 2 ), $minx, $miny, $dw, $dh, $bw, $bh );
+	$ok = imagepng( $dst, $path, 9 );
+	imagedestroy( $src );
+	imagedestroy( $dst );
+	return (bool) $ok;
+}

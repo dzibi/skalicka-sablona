@@ -3,7 +3,7 @@ Theme Name: Skalička
 Theme URI: https://svetskalicka.cz
 Author: Kapilsons s.r.o.
 Description: Šablona pro Dětský svět Skalička – herna s kavárnou v OC Skalka, Příbram. Semafor otevírací doby, napojení na kalendář akcí, členství a rezervace.
-Version: 1.10.39
+Version: 1.11.0
 Requires at least: 6.5
 Requires PHP: 8.1
 License: GNU General Public License v2 or later
@@ -744,3 +744,109 @@ img.sk-zoom:focus-visible{outline:3px solid #FECC06;outline-offset:3px}
 .sk-form-note{font-size:14px;opacity:.85}
 .sk-form-ok,.sk-form-err{border-radius:14px;padding:14px 16px;font-weight:800}
 .sk-form-ok{background:#DDF2D4}.sk-form-err{background:#FBE1DC}
+
+/* ---------- Menu kavárny (/menu/) ---------- */
+.sk-mhead{padding-bottom:76px}
+.sk-mhead-lead{font-weight:700;font-size:clamp(1.05rem,2.4vw,1.25rem);line-height:1.4;max-width:620px;margin:12px 0 14px;padding-right:110px}
+.sk-mhead-pills{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;padding-right:110px}
+.sk-mhead-pills li{background:#fff;border-radius:999px;padding:7px 14px;font-weight:800;font-size:15px;line-height:1.25}
+.sk-mhead-pills li.is-zluta{background:var(--sk-yellow)}
+.sk-mhead-pills a{text-decoration:none}
+.sk-mhead-pills a:hover{text-decoration:underline}
+@media (min-width:701px){.sk-mhead-lead,.sk-mhead-pills{padding-right:190px}}
+.sk-mwrap{max-width:1152px;margin:0 auto;padding:0 16px}
+
+/* lišta sekcí */
+.sk-mnav{position:sticky;top:0;z-index:40;background:#fff;transition:box-shadow .2s}
+.admin-bar .sk-mnav{top:32px}
+@media (max-width:782px){.admin-bar .sk-mnav{top:46px}}
+@media (max-width:600px){.admin-bar .sk-mnav{top:0}}
+.sk-mnav.is-stuck{box-shadow:0 6px 18px rgba(60,50,49,.12)}
+.sk-mnav-in{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:12px 16px;max-width:1152px;margin:0 auto;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 28px),transparent)}
+.sk-mnav-in::-webkit-scrollbar{display:none}
+@media (min-width:1000px){.sk-mnav-in{flex-wrap:wrap;justify-content:center;overflow:visible;-webkit-mask-image:none;mask-image:none}}
+.sk-mnav a{flex:0 0 auto;text-decoration:none;font-weight:800;font-size:15px;line-height:1.2;padding:9px 15px;border-radius:999px;background:var(--sk-cream);white-space:nowrap;transition:background .2s}
+.sk-mnav a:hover{background:#FFF1B8}
+.sk-mnav a[aria-current]{background:var(--sk-yellow)}
+
+/* nadpisy skupin */
+.sk-mgroup-title{font-size:clamp(2.8rem,6vw,3.8rem);margin:0 0 18px}
+.sk-mgroup-title::before{content:"";display:block;width:56px;height:8px;border-radius:99px;background:var(--sk-yellow);margin:0 0 14px}
+.sk-mtips,.sk-msec{scroll-margin-top:84px}
+
+/* tipy */
+.sk-mtips{padding:24px 0 36px}
+.sk-mtips-row{display:grid;grid-auto-flow:column;grid-auto-columns:min(70vw,270px);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:16px;padding:6px 16px 18px;margin:0 -16px;scrollbar-width:none}
+.sk-mtips-row::-webkit-scrollbar{display:none}
+@media (min-width:900px){.sk-mtips-row{grid-auto-flow:row;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));overflow:visible;margin:0;padding:6px 0 10px}}
+.sk-mtip{scroll-snap-align:start;position:relative;display:flex;flex-direction:column;border:3px solid var(--sk-choco);border-radius:26px;padding:12px 16px 18px;box-shadow:0 6px 0 var(--sk-choco);background:#FFF1B8}
+.sk-mtip--2{background:#DDF0EE}.sk-mtip--3{background:#F7E6E2}.sk-mtip--4{background:#E3F0F4}
+.sk-mtip-pic{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;margin:0 6px 4px}
+.sk-mtip-pic img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 12px rgba(60,50,49,.2));transition:transform .35s ease}
+.sk-mtip:hover .sk-mtip-pic img{transform:translateY(-5px) rotate(-2deg)}
+.sk-mtip-pic svg{width:58%;height:auto}
+.sk-mtip-body{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.sk-mtip h3{font-family:var(--sk-hand);font-weight:400;text-transform:uppercase;font-size:2.3rem;line-height:.92;margin:2px 0 0}
+.sk-mtip p{font-size:15px;line-height:1.4;margin:0}
+.sk-mtip-price{position:absolute;top:12px;right:12px;width:78px;height:78px;border-radius:50%;background:var(--sk-yellow);border:3px solid var(--sk-choco);display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;font-size:24px;line-height:1;transform:rotate(-8deg);box-shadow:0 3px 0 var(--sk-choco)}
+.sk-mtip-price small{font-size:12px;font-weight:800}
+.sk-mtip--1 .sk-mtip-price{background:#fff}
+
+/* skupiny a sekce */
+.sk-mgroup{padding:34px 0 14px}
+.sk-mgroup--jidlo{background:var(--sk-cream);border-radius:50% 50% 0 0/44px 44px 0 0;padding-top:64px;margin-top:20px}
+.sk-mgrid{display:grid;gap:18px}
+@media (min-width:900px){.sk-mgrid{display:block;columns:2;column-gap:22px}.sk-mgrid>.sk-msec{break-inside:avoid;margin:0 0 22px;display:inline-block;width:100%;vertical-align:top}}
+.sk-msec{background:var(--sk-cream);border-radius:24px;padding:18px 16px 8px}
+.sk-mgroup--jidlo .sk-msec{background:#fff}
+.sk-mgroup .sk-msec--mint{background:#DDF0EE}
+.sk-mgroup .sk-msec--zluta{background:#FFF1B8}
+.sk-mgroup .sk-msec--ruzova{background:#F7E6E2}
+.sk-msec h3{font-family:var(--sk-hand);font-weight:400;text-transform:uppercase;font-size:2.4rem;line-height:.95;margin:0 0 4px}
+.sk-msec-note{font-size:14px;line-height:1.4;font-weight:600;margin:0 0 4px;opacity:.85}
+.sk-mlist{list-style:none;margin:0;padding:0}
+.sk-mitem{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center;padding:11px 0;border-top:1px solid rgba(60,50,49,.1);margin:0}
+.sk-mitem:first-child{border-top:0}
+.sk-mthumb{width:64px;height:64px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;border:0;padding:0;margin:0;font:inherit;color:inherit}
+.sk-mgroup--jidlo .sk-mthumb{background:var(--sk-cream)}
+.sk-msec--mint .sk-mthumb,.sk-msec--zluta .sk-mthumb,.sk-msec--ruzova .sk-mthumb{background:#fff}
+button.sk-mthumb{cursor:zoom-in}
+.sk-mthumb img{width:116%;height:116%;max-width:none;object-fit:contain;filter:drop-shadow(0 4px 5px rgba(60,50,49,.2));transition:transform .2s ease}
+button.sk-mthumb:hover img{transform:scale(1.07) rotate(-3deg)}
+.sk-mthumb svg{width:60%;height:auto}
+.sk-mtext{min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px}
+.sk-mname{font-weight:800;font-size:17px;line-height:1.25}
+.sk-mdesc{flex:1 1 100%;font-size:14px;line-height:1.35;opacity:.82}
+.sk-mbadge{display:inline-block;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:800;line-height:1.45;background:var(--sk-mist);white-space:nowrap}
+.sk-mbadge.is-zluta{background:var(--sk-yellow)}
+.sk-mbadge.is-korala{background:#FD8F6B}
+.sk-mbadge.is-karamel{background:#E9B679}
+.sk-mbadge.is-mint{background:#B2DCD9}
+.sk-mtip .sk-mbadge{background:#fff;border:2px solid var(--sk-choco);padding:1px 10px}
+.sk-mprice{font-weight:800;font-size:18px;line-height:1.2;white-space:nowrap;text-align:right}
+.sk-mprice small{font-size:13px;font-weight:700}
+@media (max-width:380px){.sk-mitem{grid-template-columns:54px minmax(0,1fr) auto;gap:10px}.sk-mthumb{width:54px;height:54px}.sk-mname{font-size:16px}.sk-mprice{font-size:17px}}
+
+/* dobré vědět a nabídky */
+.sk-minfo,.sk-mcta{background:var(--sk-cream)}
+.sk-minfo{padding:10px 0 0}
+.sk-minfo-list{list-style:none;margin:0;padding:14px 18px;background:#fff;border-radius:20px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:15px}
+.sk-minfo-list li{margin:0}
+.sk-mcta{padding:26px 0 112px}
+.sk-mcta-grid{display:grid;gap:22px}
+@media (min-width:800px){.sk-mcta-grid{grid-template-columns:1fr 1fr}}
+.sk-mcta-card{border:3px solid var(--sk-choco);border-radius:26px;padding:22px 22px 24px;box-shadow:0 6px 0 var(--sk-choco);display:flex;flex-direction:column;align-items:flex-start;background:#FFF1B8}
+.sk-mcta-card--oslava{background:#F7E6E2}
+.sk-mcta-card h2{font-size:clamp(2.4rem,5vw,3.1rem);margin:2px 0 8px}
+.sk-mcta-kicker{font-weight:800;margin:0;font-size:14px;text-transform:uppercase;letter-spacing:.6px;opacity:.8}
+.sk-mcta-card p{margin:0 0 16px}
+.sk-mcta-card .sk-btn{margin-top:auto}
+
+/* fotka položky v okně */
+.sk-mfoto{border:0;padding:0;background:transparent;width:min(92vw,520px);max-width:none;overflow:visible}
+.sk-mfoto::backdrop{background:rgba(60,50,49,.88)}
+.sk-mfoto form{margin:0}
+.sk-mfoto img{display:block;width:100%;height:auto;max-height:68vh;object-fit:contain;background:var(--sk-cream);border-radius:28px;padding:18px}
+.sk-mfoto-name{margin:14px 0 0;text-align:center;color:#fff;font-weight:800;font-size:18px}
+.sk-mfoto-x{position:absolute;top:-16px;right:-8px;z-index:1;border:0;cursor:pointer;background:var(--sk-yellow);color:var(--sk-choco);border-radius:50%;width:46px;height:46px;font:700 28px/1 system-ui,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+@media (prefers-reduced-motion:reduce){.sk-mtip-pic img,.sk-mthumb img{transition:none}}

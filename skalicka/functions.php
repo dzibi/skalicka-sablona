@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SKALICKA_VERSION', '1.10.39' );
+define( 'SKALICKA_VERSION', '1.11.0' );
 
 require_once __DIR__ . '/inc/settings.php';
 require_once __DIR__ . '/inc/events.php';
@@ -23,6 +23,7 @@ require_once __DIR__ . '/inc/zabezpeceni.php';
 require_once __DIR__ . '/inc/pasy.php';
 require_once __DIR__ . '/inc/ilustrace.php';
 require_once __DIR__ . '/inc/aktualizace.php';
+require_once __DIR__ . '/inc/menu.php';
 require_once __DIR__ . '/inc/loader.php';
 
 add_action( 'after_setup_theme', function () {

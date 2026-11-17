@@ -24,6 +24,7 @@ function skalicka_seo_titles() {
 	return array(
 		'herna-a-vstupne'                => 'Herna a vstupné – dětská herna v Příbrami',
 		'herna-a-vstupne/kavarna-a-menu' => 'Kavárna a menu v herně',
+		'menu'                           => 'Menu kavárny – káva, limonády, vafle a pizza',
 		'clenstvi'                       => 'Členství v herně – neomezený vstup',
 		'lekce'                          => 'Lekce pro děti – Pohybovky 3–6 let',
 		'oslavy'                         => 'Dětské oslavy a narozeniny v Příbrami',
@@ -49,6 +50,7 @@ function skalicka_seo_descriptions() {
 		'/'                              => 'Dětská herna s kavárnou v OC Skalka, Příbram. Přes 300 m² hraní pro děti od miminek do 13 let' . ( $hod ? ', ' . $hod : '' ) . '. Vstup 150 Kč na celý den.',
 		'herna-a-vstupne'                => 'Vstupné 150 Kč za dítě na celý den, miminka do 6 měsíců a doprovod zdarma. Velká prolézačka, zóna pro batolata, lezecká stěna a kavárna s výhledem na hernu.',
 		'herna-a-vstupne/kavarna-a-menu' => 'Káva, domácí limonády, vafle s ovocem a toasty v kavárně přímo v herně. Sedíte v klidu a děti máte na očích. Členové mají 10 % z celého účtu.',
+		'menu'                           => 'Menu kavárny v herně v OC Skalka, Příbram: káva, domácí limonády, vafle, toasty a pizza s cenami a fotkami. Členové mají 10 % z celého účtu.',
 		'clenstvi'                       => 'Členství v herně Skalička: neomezený vstup pro dítě, lekce a tematické akce zdarma, 10 % v kavárně i z ceny oslavy. Platba kartou online, zrušíte kdykoli.',
 		'lekce'                          => 'Pohybovky pro děti 3–6 let v Příbrami: tanec, dětská jóga a pohybové hry. 45 minut v malé skupině do 8 dětí, 150 Kč i se vstupem do herny na celý den.',
 		'oslavy'                         => 'Dětské narozeniny v herně v OC Skalka, Příbram. Stůl pro 8–10 dětí, vlastní salonek pro 12 nebo celá herna. Připravíme a vyzdobíme, vy jen přijdete.',
